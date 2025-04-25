@@ -100,3 +100,65 @@ body {
 .footer__item-onmouseover:hover {
     color: rgb(32, 126, 241);
 }
+
+.auth {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+.auth__form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+  
+.auth__input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+  
+.auth__button {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 16px;
+}
+  
+.auth__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+  
+.auth__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+  
+.auth__logout, .auth__register {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.auth__name {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+  
+.auth__name--link:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+  
+.auth__name--link:active {
+    color: #1a5276;
+}

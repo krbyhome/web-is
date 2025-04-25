@@ -1,0 +1,16 @@
+<div class="auth">
+  {{#if isAuthenticated}}
+    <div class="auth__user">
+      <img class="auth__avatar" src="{{user.avatar}}" alt="{{user.name}}">
+      <a href="/about" class="auth__name auth__name--link">{{user.name}}</a>
+      <a href="/logout" class="auth__logout">Выйти</a>
+    </div>
+  {{else}}
+    <form class="auth__form" action="/login" method="POST">
+      <input class="auth__input" type="text" name="username" placeholder="Логин" required>
+      <input class="auth__input" type="password" name="password" placeholder="Пароль" required>
+      <button class="auth__button" type="submit">Войти</button>
+      <a href="/register" class="auth__register">Регистрация</a>
+    </form>
+  {{/if}}
+</div>

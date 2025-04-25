@@ -1,0 +1,17 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="{{meta.keywords}}" />
+    <meta name="description" content="{{meta.description}}" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/common.css">
+    {{#each styles}}
+      <link rel="stylesheet" href="/css/{{this}}" />
+    {{/each}}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    {{#each fonts}}
+      <link href="{{this}}" rel="stylesheet" />
+    {{/each}}
+    {{#each downloadedStyles}}
+      <link href="{{this}}" rel="stylesheet" />
+    {{/each}}
+</head>
