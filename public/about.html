@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="keywords" content="software,cv,github,about" />
+    <meta name="description" content="page about me"/>
+    <title>egorsufiyarov| about</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+    <link href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css" rel="stylesheet">
+    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/pageLoadTime.js"></script>
+  </head>
+
+  <body>
+    <header class="header">
+      <nav class="header__navigation">
+        <a 
+        class="header__navigation-logo header__navigation-item header__item-onmouseover"
+        href="index.html"
+        >Егор</a>
+
+        <a class="header__navigation-about header__navigation-item header__item-onmouseover" href="about.html">Обо мне</a>
+        <a class="header__navigation-projects header__navigation-item header__item-onmouseover" href="projects.html">Проекты</a>
+        <a class="header__navigation-technologies header__navigation-item header__item-onmouseover" href="technologies.html">Стэк</a>
+        <a class="header__navigation-hobbies header__navigation-item header__item-onmouseover" href="hobbies.html">Хобби</a>
+        <a class="header__navigation-schedule header__navigation-item header__item-onmouseover" href="schedule.html">Расписание</a>
+        <a class="header__navigation-contacts header__navigation-item header__item-onmouseover" href="view_history.html">История пользователей</a>
+      </nav>
+    </header>
+
+    <main class="main">
+        <h1 class="main__title">Про меня</h1>
+
+        <article class="main__about">
+          <h2 class="main__about-title">Егорчик</h2>
+
+          <div class="main__about-item main__about-pic-item">
+            <img
+              class="main__about-pic main__about-pic-shadow"
+              src="pics/my_photo.jpg"
+            />
+          </div>
+
+          <p class="main__about-intro">
+            Родился в городе <i>Кемерово</i>
+            <br />
+            Сейчас в Санкт-Петербурге
+          </p>
+  
+          <div id="timeline-embed" style="width: 100%; height: 600px;"></div>
+  
+          <h2 class="main__about-title">Сфера увлечений</h2>
+          <p class="main__about-aims">
+            Мне нравится разрабатывать микросервисы
+            <br />
+            Участвовать в разработке высоконагруженных приложений
+            <br />
+            Смотреть Гарри Поттера перед новым годом
+          </p>
+        </article>
+    </main>
+
+    <footer class="footer">
+      <nav class="footer__navigation">
+        <a class="footer__navigation-telegram footer__navigation-item footer__item-onmouseover" href="https://t.me/sufiyarovegor">telegram</a>
+        <a class="footer__navigation-github footer__navigation-item footer__item-onmouseover" href="https://github.com/krbyhome">github</a>
+      </nav>
+
+      <div class="footer__time" id="page-load-time"></div>
+    </footer>
+  </body>
+</html>
