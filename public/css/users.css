@@ -1,0 +1,43 @@
+
+.main__container {
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.error,
+.main__container-preloader {
+    display: none;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f4f4f9;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.error {
+    color: red;
+}
+
+.main__container-preloader {
+    color: #333;
+}
+
+.user-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}

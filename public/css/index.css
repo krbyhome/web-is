@@ -1,0 +1,18 @@
+.main__section-code {
+    background-color: #e0f7fa;
+    color: #00796b;
+}
+
+.main__section-code code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 16px;
+}
+
+.main__section-ascii {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    bottom: 60px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
