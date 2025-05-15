@@ -4,7 +4,7 @@
   <label class="main__event-label" for="day-select">День недели:</label>
   <select class="main__form-option" id="form-day-select" name="form-day-select" required>
     {{#each days}}
-      <option value="{{this.name}}">{{this.name}}</option>
+    <option value="{{this.name}}">{{this.name}}</option>
     {{/each}}
   </select>
 
@@ -16,13 +16,13 @@
 
 <div class="main__schedule-container">
   {{#each days}}
-    <div class="main__field main__day" data-day="{{this.name}}">
-      <h3>{{this.name}}</h3>
-      <div class="events-container">
-        {{#each this.events}}
-          <div class="event-item">{{this}}</div>
-        {{/each}}
-      </div>
+  <div class="main__field main__day" data-day="{{this.name}}">
+    <h3>{{this.name}}</h3>
+    <div class="events-container">
+      {{#each this.events}}
+      <div class="event-item">{{this}}</div>
+      {{/each}}
     </div>
+  </div>
   {{/each}}
 </div>

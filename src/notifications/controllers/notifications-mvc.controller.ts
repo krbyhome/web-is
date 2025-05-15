@@ -5,7 +5,7 @@ import { CustomSession } from 'src/middleware/auth.middleware';
 
 @Controller('notifications')
 export class NotificationsMvcController {
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(private readonly notificationsService: NotificationsService) { }
 
   @Get()
   @Render('pages/notifications/notifications')

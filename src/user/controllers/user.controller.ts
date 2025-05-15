@@ -37,7 +37,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly notificationService: NotificationsService,
-  ) {}
+  ) { }
 
   @Post()
   @ApiOperation({ summary: 'Create user', description: 'Create user' })

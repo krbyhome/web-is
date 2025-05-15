@@ -4,35 +4,35 @@
   </div>
 
   {{#if notifications}}
-    <div class="notifications-table-wrapper">
-      <table class="notifications-table">
-        <thead>
-          <tr class="table-header-row">
-            <th class="table-header">Сообщение</th>
-            <th class="table-header actions-header">Действия</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each notifications}}
-            <tr class="table-row {{#unless this.is_read}}unread{{/unless}}">
-              <td class="table-data message-cell">{{this.message}}</td>
-              <td class="table-data actions-cell">
-                <form action="/api/notifications/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
-                  <button type="submit" class="delete-button">
-                    <svg class="delete-icon" viewBox="0 0 24 24">
-                    </svg>
-                    Удалить
-                  </button>
-                </form>
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
+  <div class="notifications-table-wrapper">
+    <table class="notifications-table">
+      <thead>
+        <tr class="table-header-row">
+          <th class="table-header">Сообщение</th>
+          <th class="table-header actions-header">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each notifications}}
+        <tr class="table-row {{#unless this.is_read}}unread{{/unless}}">
+          <td class="table-data message-cell">{{this.message}}</td>
+          <td class="table-data actions-cell">
+            <form action="/api/notifications/{{this.id}}?_method=DELETE" method="POST" class="delete-form">
+              <button type="submit" class="delete-button">
+                <svg class="delete-icon" viewBox="0 0 24 24">
+                </svg>
+                Удалить
+              </button>
+            </form>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
   {{else}}
-    <div>
-      <p>Уведомления отсутствуют</p>
-    </div>
+  <div>
+    <p>Уведомления отсутствуют</p>
+  </div>
   {{/if}}
 </div>

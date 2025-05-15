@@ -13,26 +13,26 @@ export class CommentService {
     private readonly commentRepository: Repository<Comment>,
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
-  ) {}
+  ) { }
 
   async create(
     createCommentDto: CreateCommentDto,
     authorId: string,
   ): Promise<Comment> {
-    const project = await this.projectRepository.findOneBy({ 
-      id: createCommentDto.projectId 
+    const project = await this.projectRepository.findOneBy({
+      id: createCommentDto.projectId
     });
-    
+
     if (!project) {
       throw new NotFoundException('Project not found');
     }
-  
+
     const comment = this.commentRepository.create({
       content: createCommentDto.content,
       author: { id: authorId },
       project,
     });
-  
+
     return this.commentRepository.save(comment);
   }
 

@@ -10,7 +10,7 @@ import { Notification } from 'src/notifications/entities/notification.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) { }
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const connectionString = this.configService.get<string>('DATABASE_CONNECTION_STRING');
@@ -33,8 +33,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   private getSslConfig() {
     return {
-       rejectUnauthorized: false,
-       ca: process.env.SERTIFICATE || '',
+      rejectUnauthorized: false,
+      ca: process.env.SERTIFICATE || '',
     };
   }
 }

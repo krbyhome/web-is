@@ -25,30 +25,30 @@ async function bootstrap() {
   hbs.registerPartials(join(__dirname, '..', 'views/partials'));
   hbs.registerPartials(join(__dirname, '..', 'views/layouts'));
 
-  hbs.registerHelper('formatDate', function(date) {
+  hbs.registerHelper('formatDate', function (date) {
     return new Date(date).toLocaleDateString('ru-RU');
   });
 
-  hbs.registerHelper('formatDateTime', function(date) {
+  hbs.registerHelper('formatDateTime', function (date) {
     return new Date(date).toLocaleString('ru-RU');
   });
 
-  hbs.registerHelper('eq', function(a, b, options) {
+  hbs.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
   });
 
-  hbs.registerHelper('neq', function(a, b, options) {
+  hbs.registerHelper('neq', function (a, b, options) {
     return a !== b ? options.fn(this) : options.inverse(this);
   });
 
-  hbs.registerHelper('truncate', function(str, len) {
+  hbs.registerHelper('truncate', function (str, len) {
     if (str.length > len) {
       return str.substring(0, len) + '...';
     }
     return str;
   });
 
-  hbs.registerHelper('includes', function(array, value) {
+  hbs.registerHelper('includes', function (array, value) {
     return array.some(item => item.id === value);
   });
 

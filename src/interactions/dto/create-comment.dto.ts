@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID, Length } from 'class-validator';
+import { IsOptional, IsString, IsUUID, Length } from 'class-validator';
 
 export class CreateCommentDto {
   @ApiProperty({
@@ -16,6 +16,7 @@ export class CreateCommentDto {
     example: '0b2bef9a-9bf2-4948-8768-7d35538d3c68',
     description: 'Project ID',
   })
+  @IsOptional()
   @IsUUID()
   projectId: string;
 }

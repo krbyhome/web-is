@@ -1,4 +1,3 @@
-/* Основные стили */
 .project-view-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -6,7 +5,7 @@
   color: #333;
 }
 
-/* Шапка проекта */
+
 .project-header {
   margin-bottom: 2rem;
   border-bottom: 1px solid #eee;
@@ -49,7 +48,7 @@
   font-size: 0.9rem;
 }
 
-/* Основное содержимое */
+
 .project-content {
   margin: 2rem 0;
 }
@@ -59,7 +58,7 @@
   margin-bottom: 2rem;
 }
 
-/* Технологии */
+
 .project-technologies {
   margin: 2rem 0;
 }
@@ -106,7 +105,7 @@
   height: 16px;
 }
 
-/* Ссылки */
+
 .project-links {
   margin: 2rem 0;
 }
@@ -127,7 +126,7 @@
   background: #e0e0e0;
 }
 
-/* Действия */
+
 .project-actions {
   margin: 2rem 0;
 }
@@ -147,7 +146,7 @@
   background: #1976d2;
 }
 
-/* Комментарии */
+
 .project-comments {
   margin: 3rem 0;
   padding-top: 2rem;
@@ -220,7 +219,7 @@
   font-style: italic;
 }
 
-/* Проекты автора */
+
 .author-projects {
   margin: 3rem 0;
   padding-top: 2rem;
@@ -243,7 +242,7 @@
 
 .project-card:hover {
   border-color: #ddd;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .project-card h3 {
@@ -265,7 +264,7 @@
   line-height: 1.5;
 }
 
-/* Ошибка */
+
 .error-message {
   padding: 1.5rem;
   background: #ffebee;

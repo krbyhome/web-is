@@ -20,13 +20,13 @@
           <div class="tech-input-group">
             <input type="text" name="techNames[]" placeholder="Название технологии" value="{{this.name}}" required>
             <select name="techCategories[]">
-              <option value="frontend" {{#eq this.category 'frontend'}}selected{{/eq}}>Frontend</option>
-              <option value="backend" {{#eq this.category 'backend'}}selected{{/eq}}>Backend</option>
-              <option value="database" {{#eq this.category 'database'}}selected{{/eq}}>База данных</option>
-              <option value="tool" {{#eq this.category 'tool'}}selected{{/eq}}>Инструмент</option>
+              <option value="frontend" {{#eq this.category 'frontend' }}selected{{/eq}}>Frontend</option>
+              <option value="backend" {{#eq this.category 'backend' }}selected{{/eq}}>Backend</option>
+              <option value="database" {{#eq this.category 'database' }}selected{{/eq}}>База данных</option>
+              <option value="tool" {{#eq this.category 'tool' }}selected{{/eq}}>Инструмент</option>
             </select>
           </div>
-          <button type="button" class="btn-remove-tech" {{#if @first}}style="display: none;"{{/if}}>
+          <button type="button" class="btn-remove-tech" {{#if @first}}style="display: none;" {{/if}}>
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -59,11 +59,11 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('technologies-container');
     const addBtn = document.getElementById('add-tech-btn');
 
-    addBtn.addEventListener('click', function() {
+    addBtn.addEventListener('click', function () {
       const newRow = document.createElement('div');
       newRow.className = 'tech-row';
       newRow.innerHTML = `
@@ -86,7 +86,7 @@
 
     function updateRemoveButtons() {
       document.querySelectorAll('.btn-remove-tech').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
           this.parentElement.remove();
           updateRemoveButtons();
         });

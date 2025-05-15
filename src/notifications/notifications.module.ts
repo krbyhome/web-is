@@ -11,4 +11,4 @@ import { NotificationsMvcController } from './controllers/notifications-mvc.cont
   providers: [NotificationsService],
   exports: [NotificationsService],
 })
-export class NotificationsModule {}
+export class NotificationsModule { }

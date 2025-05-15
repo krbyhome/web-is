@@ -19,4 +19,4 @@ import { CommentMvcController } from './controllers/comment-mvc.controller';
   controllers: [CommentController, CommentMvcController],
   exports: [CommentService],
 })
-export class CommentModule {}
+export class CommentModule { }

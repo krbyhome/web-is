@@ -11,7 +11,7 @@ export class CommentMvcController {
   constructor(
     private readonly commentService: CommentService,
     private readonly notificationService: NotificationsService
-  ) {}
+  ) { }
 
   @Post(':projectId')
   async createComment(
@@ -45,7 +45,6 @@ export class CommentMvcController {
   }
 
   @Get(':projectId')
-  @Render('interactions/comments')
   async getProjectComments(
     @Param('projectId') projectId: string,
     @Req() req: Request & { session: CustomSession }

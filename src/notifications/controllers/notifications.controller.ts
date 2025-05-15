@@ -29,7 +29,7 @@ import { DeleteNotificationResponseDto } from '../dto/responses/delete-notificat
 
 @Controller('api/notifications')
 export class NotificationsController {
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(private readonly notificationsService: NotificationsService) { }
 
   @Post()
   @ApiOperation({

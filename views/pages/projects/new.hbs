@@ -57,11 +57,11 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const container = document.getElementById('technologies-container');
     const addBtn = document.getElementById('add-tech-btn');
 
-    addBtn.addEventListener('click', function() {
+    addBtn.addEventListener('click', function () {
       const newRow = document.createElement('div');
       newRow.className = 'tech-row';
       newRow.innerHTML = `
@@ -84,7 +84,7 @@
 
     function updateRemoveButtons() {
       document.querySelectorAll('.btn-remove-tech').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
           this.parentElement.remove();
           updateRemoveButtons();
         });

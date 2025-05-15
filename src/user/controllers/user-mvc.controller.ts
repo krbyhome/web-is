@@ -5,18 +5,18 @@ import { CustomSession } from 'src/middleware/auth.middleware';
 
 @Controller('profile')
 export class UserMvcController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get()
   @Render('pages/users/user-view')
   async view(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.username) {
-        console.warn('NOT AUTH');
-        return null;
+      console.warn('NOT AUTH');
+      return null;
     }
 
     const user = await this.userService.findOneByName(
-        req.session.username,
+      req.session.username,
     );
 
     console.log('Found user:', user);
@@ -32,8 +32,8 @@ export class UserMvcController {
   @Render('pages/users/user-edit')
   async edit(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.username) {
-        console.warn('NOT AUTH');
-        return null;
+      console.warn('NOT AUTH');
+      return null;
     }
 
     const user = await this.userService.findOneByName(

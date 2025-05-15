@@ -11,7 +11,7 @@ export class NotificationsService {
   constructor(
     @InjectRepository(Notification)
     private readonly notificationRepository: Repository<Notification>,
-  ) {}
+  ) { }
 
   async create(createNotificationDto: CreateNotificationDto) {
     const notification = this.notificationRepository.create(
