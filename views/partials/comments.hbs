@@ -1,0 +1,20 @@
+<div class="comments-list">
+  {{#each comments}}
+    <div class="comment" data-comment-id="{{this.id}}">
+      <div class="comment-header">
+        <img src="{{this.author.avatar_url}}" alt="{{this.author.name}}" class="comment-avatar">
+        <a href="/profile/{{this.author.id}}">{{this.author.name}}</a>
+      </div>
+      <div class="comment-content">{{this.content}}</div>
+    </div>
+  {{else}}
+    <p class="no-comments">Пока нет комментариев</p>
+  {{/each}}
+</div>
+
+{{#if isAuthenticated}}
+  <form class="comment-form" action="/comments/{{project.id}}" method="POST">
+    <textarea name="content" placeholder="Оставьте комментарий..." required></textarea>
+    <button type="submit" class="btn-submit">Отправить</button>
+  </form>
+{{/if}}

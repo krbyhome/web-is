@@ -1,0 +1,107 @@
+<div class="project-form-container">
+  <h1 class="form-title">{{title}}</h1>
+
+  <form action="/projects/edit/{{project.id}}" method="POST" class="project-form">
+    <div class="form-group">
+      <label for="title">Название проекта*</label>
+      <input type="text" id="title" name="title" value="{{project.title}}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Описание*</label>
+      <textarea id="description" name="description" rows="5" required>{{project.description}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Технологии</label>
+      <div id="technologies-container">
+        {{#each technologies}}
+        <div class="tech-row">
+          <div class="tech-input-group">
+            <input type="text" name="techNames[]" placeholder="Название технологии" value="{{this.name}}" required>
+            <select name="techCategories[]">
+              <option value="frontend" {{#eq this.category 'frontend'}}selected{{/eq}}>Frontend</option>
+              <option value="backend" {{#eq this.category 'backend'}}selected{{/eq}}>Backend</option>
+              <option value="database" {{#eq this.category 'database'}}selected{{/eq}}>База данных</option>
+              <option value="tool" {{#eq this.category 'tool'}}selected{{/eq}}>Инструмент</option>
+            </select>
+          </div>
+          <button type="button" class="btn-remove-tech" {{#if @first}}style="display: none;"{{/if}}>
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        {{/each}}
+      </div>
+      <button type="button" id="add-tech-btn" class="btn-secondary">
+        <i class="fas fa-plus"></i> Добавить технологию
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="githubLink">Ссылка на GitHub</label>
+      <input type="url" id="githubLink" name="githubLink" value="{{project.githubLink}}">
+    </div>
+
+    <div class="form-group">
+      <label for="demoLink">Демо-ссылка</label>
+      <input type="url" id="demoLink" name="demoLink" value="{{project.demoLink}}">
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        <i class="fas fa-save"></i> Сохранить изменения
+      </button>
+      <a href="/projects/view/{{project.id}}" class="btn-secondary">
+        <i class="fas fa-times"></i> Отмена
+      </a>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('technologies-container');
+    const addBtn = document.getElementById('add-tech-btn');
+
+    addBtn.addEventListener('click', function() {
+      const newRow = document.createElement('div');
+      newRow.className = 'tech-row';
+      newRow.innerHTML = `
+        <div class="tech-input-group">
+          <input type="text" name="techNames[]" placeholder="Название технологии" required>
+          <select name="techCategories[]">
+            <option value="frontend">Frontend</option>
+            <option value="backend">Backend</option>
+            <option value="database">База данных</option>
+            <option value="tool" selected>Инструмент</option>
+          </select>
+        </div>
+        <button type="button" class="btn-remove-tech">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      container.appendChild(newRow);
+      updateRemoveButtons();
+    });
+
+    function updateRemoveButtons() {
+      document.querySelectorAll('.btn-remove-tech').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.parentElement.remove();
+          updateRemoveButtons();
+        });
+      });
+
+      const rows = document.querySelectorAll('.tech-row');
+      if (rows.length === 1) {
+        rows[0].querySelector('.btn-remove-tech').style.display = 'none';
+      } else {
+        rows.forEach(row => {
+          row.querySelector('.btn-remove-tech').style.display = 'block';
+        });
+      }
+    }
+
+    updateRemoveButtons();
+  });
+</script>

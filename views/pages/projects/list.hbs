@@ -1,0 +1,73 @@
+{{#*inline "styles"}}
+  <link rel="stylesheet" href="/css/projects/list.css">
+{{/inline}}
+
+<div class="projects-container">
+  <h1 class="projects-title">{{title}}</h1>
+
+  {{#if error}}
+    <div class="error-message">
+      <i class="fas fa-exclamation-circle"></i> {{error}}
+    </div>
+  {{/if}}
+
+  <div class="projects-filter">
+    {{#if isAuthenticated}}
+      <a href="/projects?my=true" class="filter-btn {{#if query.my}}active{{/if}}">
+        <i class="fas fa-user"></i> Мои проекты
+      </a>
+    {{/if}}
+    <a href="/projects" class="filter-btn {{#unless query.my}}active{{/unless}}">
+      <i class="fas fa-globe"></i> Все проекты
+    </a>
+  </div>
+
+  <div class="projects-grid">
+    {{#each projects}}
+      <article class="project-card">
+        <div class="project-card__header">
+          <h2 class="project-card__title">
+            <a href="/projects/view/{{this.id}}">{{this.title}}</a>
+          </h2>
+          <div class="project-card__meta">
+            <span class="project-author">
+                <img src="{{this.author.avatar_url}}" alt="{{this.author.name}}" class="author-avatar">
+                {{this.author.name}}
+            </span>
+          </div>
+        </div>
+
+        <div class="project-card__body">
+          <p class="project-description">{{truncate this.description 150}}</p>
+          
+          <div class="project-stats">
+            <span class="stat-item">
+              <i class="fas fa-eye"></i> {{this.views}}
+            </span>
+            <span class="stat-item">
+              <i class="fas fa-comment"></i> {{this.commentCount}}
+            </span>
+          </div>
+        </div>
+
+        <div class="project-card__footer">
+          <div class="tech-tags">
+            {{#each this.stack}}
+              <span class="tech-tag">{{this}}</span>
+            {{/each}}
+          </div>
+        </div>
+      </article>
+    {{else}}
+      <div class="empty-state">
+        <i class="fas fa-folder-open empty-icon"></i>
+        <h3>Проекты не найдены</h3>
+      </div>
+    {{/each}}
+    {{#if isAuthenticated}}
+          <a href="/projects/new" class="btn-primary">
+            <i class="fas fa-plus"></i> Создать новый проект
+          </a>
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="project-form-container">
+  <h1 class="form-title">{{title}}</h1>
+
+  <form action="/projects" method="POST" class="project-form">
+    <div class="form-group">
+      <label for="title">Название проекта*</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Описание*</label>
+      <textarea id="description" name="description" rows="5" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Технологии</label>
+      <div id="technologies-container">
+        <div class="tech-row">
+          <div class="tech-input-group">
+            <input type="text" name="techNames[]" placeholder="Название технологии" required>
+            <select name="techCategories[]">
+              <option value="frontend">Frontend</option>
+              <option value="backend">Backend</option>
+              <option value="database">База данных</option>
+              <option value="tool" selected>Инструмент</option>
+            </select>
+          </div>
+          <button type="button" class="btn-remove-tech" style="display: none;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <button type="button" id="add-tech-btn" class="btn-secondary">
+        <i class="fas fa-plus"></i> Добавить технологию
+      </button>
+    </div>
+
+    <div class="form-group">
+      <label for="githubLink">Ссылка на GitHub</label>
+      <input type="url" id="githubLink" name="githubLink">
+    </div>
+
+    <div class="form-group">
+      <label for="demoLink">Демо-ссылка</label>
+      <input type="url" id="demoLink" name="demoLink">
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">
+        <i class="fas fa-save"></i> Создать проект
+      </button>
+      <a href="/projects" class="btn-secondary">
+        <i class="fas fa-times"></i> Отмена
+      </a>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('technologies-container');
+    const addBtn = document.getElementById('add-tech-btn');
+
+    addBtn.addEventListener('click', function() {
+      const newRow = document.createElement('div');
+      newRow.className = 'tech-row';
+      newRow.innerHTML = `
+        <div class="tech-input-group">
+          <input type="text" name="techNames[]" placeholder="Название технологии" required>
+          <select name="techCategories[]">
+            <option value="frontend">Frontend</option>
+            <option value="backend">Backend</option>
+            <option value="database">База данных</option>
+            <option value="tool" selected>Инструмент</option>
+          </select>
+        </div>
+        <button type="button" class="btn-remove-tech">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      container.appendChild(newRow);
+      updateRemoveButtons();
+    });
+
+    function updateRemoveButtons() {
+      document.querySelectorAll('.btn-remove-tech').forEach(btn => {
+        btn.addEventListener('click', function() {
+          this.parentElement.remove();
+          updateRemoveButtons();
+        });
+      });
+
+      const rows = document.querySelectorAll('.tech-row');
+      if (rows.length === 1) {
+        rows[0].querySelector('.btn-remove-tech').style.display = 'none';
+      } else {
+        rows.forEach(row => {
+          row.querySelector('.btn-remove-tech').style.display = 'block';
+        });
+      }
+    }
+
+    updateRemoveButtons();
+  });
+</script>

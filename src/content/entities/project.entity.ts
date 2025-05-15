@@ -17,10 +17,19 @@ export class Project {
   @Column({ default: 0 })
   views: number;
 
+  @Column({ nullable: true })
+  githubLink?: string;
+
+  @Column({ nullable: true })
+  demoLink?: string;
+
   @ManyToOne(() => User)
   author: User;
 
-  @ManyToMany(() => Technology)
+  @ManyToMany(() => Technology, (technology) => technology.projects, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   technologies: Technology[];
 }

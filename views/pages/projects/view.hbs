@@ -1,0 +1,76 @@
+{{#*inline "styles"}}
+  <link rel="stylesheet" href="/css/project-view.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{{/inline}}
+
+<div class="project-view-container">
+  {{#if error}}
+    <div class="error-message">
+      <i class="fas fa-exclamation-circle"></i> {{error}}
+    </div>
+  {{else}}
+    <div class="project-header">
+      <h1 class="project-title">{{project.title}}</h1>
+      
+      <div class="project-meta">
+        <div class="project-author">
+          <img src="{{project.author.avatar_url}}" alt="{{project.author.name}}" class="author-avatar">
+          <a href="/profile/{{project.author.id}}">{{project.author.name}}</a>
+        </div>
+        <div class="project-stats">
+          <span class="stat-item"><i class="fas fa-eye"></i> {{project.views}}</span>
+          <span class="stat-item"><i class="fas fa-comment"></i> {{comments.length}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-content">
+      <div class="project-description">
+        <h2>Описание проекта</h2>
+        <p>{{project.description}}</p>
+      </div>
+
+      <div class="project-technologies">
+        <h2>Использованные технологии</h2>
+        <div class="tech-tags">
+          {{#each technologies}}
+            <span class="tech-tag {{this.category}}">
+              {{#if this.iconUrl}}<img src="{{this.iconUrl}}" alt="{{this.name}}" class="tech-icon">{{/if}}
+              {{this.name}}
+            </span>
+          {{/each}}
+        </div>
+      </div>
+
+      {{#if project.githubLink}}
+        <div class="project-links">
+          <h2>Ссылки</h2>
+          <a href="{{project.githubLink}}" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          {{#if project.demoLink}}
+            <a href="{{project.demoLink}}" target="_blank" class="project-link">
+              <i class="fas fa-external-link-alt"></i> Демо
+            </a>
+          {{/if}}
+        </div>
+      {{/if}}
+    </div>
+
+    {{#if isAuthenticated}}
+      <div class="project-actions">
+        {{#if isAuthor}}
+          <a href="/projects/edit/{{project.id}}" class="btn-edit">
+            <i class="fas fa-edit"></i> Редактировать
+          </a>
+        {{/if}}
+      </div>
+    {{/if}}
+
+    <div class="project-comments">
+      <h2>Комментарии ({{comments.length}})</h2>
+      
+      {{> comments comments=comments project=project isAuthenticated=isAuthenticated}}
+    </div>
+  {{/if}}
+</div>

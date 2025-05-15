@@ -6,15 +6,19 @@ export class Technology {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  name: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['frontend', 'backend', 'tool', 'database'],
+    default: 'tool'
+  })
+  category: string;
+
   @Column({ nullable: true })
   iconUrl: string;
 
-  @Column({ unique: true })
-  name: string;
-
-  @Column()
-  category: 'frontend' | 'backend' | 'tool';
-
-  @ManyToMany(() => Project)
+  @ManyToMany(() => Project, project => project.technologies)
   projects: Project[];
 }

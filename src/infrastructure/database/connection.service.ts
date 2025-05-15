@@ -2,14 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { parse } from 'pg-connection-string';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { User } from 'src/user/entities/user.entity';
-import { UserProfile } from 'src/user/entities/profile.entity';
-import { AuthSession } from 'src/user/entities/session.entity';
 import { Technology } from 'src/content/entities/technology.entity';
 import { Project } from 'src/content/entities/project.entity';
 import { Comment } from 'src/interactions/entities/comment.entity';
+import { Notification } from 'src/notifications/entities/notification.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -27,8 +24,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: parsedOptions.user,
       password: parsedOptions.password,
       database: parsedOptions.database || 'postgres',
-      entities: [User, UserProfile, AuthSession, Technology, Project, Comment],
-      synchronize: false,
+      entities: [User, Technology, Project, Comment, Notification],
+      synchronize: true,
       ssl: this.getSslConfig(),
       logging: ['warn', 'error'],
     };

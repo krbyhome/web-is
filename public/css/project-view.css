@@ -1,0 +1,278 @@
+/* Основные стили */
+.project-view-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #333;
+}
+
+/* Шапка проекта */
+.project-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.project-title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.project-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.project-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.project-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat-item {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Основное содержимое */
+.project-content {
+  margin: 2rem 0;
+}
+
+.project-description {
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Технологии */
+.project-technologies {
+  margin: 2rem 0;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tech-tag {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background: #f0f0f0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tech-tag.frontend {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.tech-tag.backend {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.tech-tag.database {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+
+.tech-tag.tool {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.tech-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Ссылки */
+.project-links {
+  margin: 2rem 0;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  color: #333;
+  text-decoration: none;
+}
+
+.project-link:hover {
+  background: #e0e0e0;
+}
+
+/* Действия */
+.project-actions {
+  margin: 2rem 0;
+}
+
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.2rem;
+  background: #2196f3;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-edit:hover {
+  background: #1976d2;
+}
+
+/* Комментарии */
+.project-comments {
+  margin: 3rem 0;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.comment-form {
+  margin: 1.5rem 0;
+}
+
+.comment-form textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 100px;
+  margin-bottom: 1rem;
+}
+
+.btn-submit {
+  padding: 0.7rem 1.5rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background: #388e3c;
+}
+
+.comments-list {
+  margin-top: 2rem;
+}
+
+.comment {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 4px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-date {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.comment-content {
+  line-height: 1.5;
+}
+
+.no-comments {
+  color: #666;
+  font-style: italic;
+}
+
+/* Проекты автора */
+.author-projects {
+  margin: 3rem 0;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.project-card {
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.project-card:hover {
+  border-color: #ddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.project-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.project-card h3 a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+.project-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.project-description {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Ошибка */
+.error-message {
+  padding: 1.5rem;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 4px;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}

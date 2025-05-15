@@ -1,15 +1,39 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Render, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
 import { AppService } from './app.service';
+import { CustomSession } from './middleware/auth.middleware';
+import { SubmitNameDto } from './auth/dto/submit-name';
+import { UserService } from './user/user.service';
+import { CreateUserDto } from './user/dto/create-user.dto';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly userService: UserService,
+  ) {}
+
+
+  @Get('/')
+  @Render('pages/index')
+  getIndexPage() {
+    return {
+      layout: 'layouts/main',
+      title: 'egorsufiyarov | index',
+      meta: {
+        keywords: 'software,cv,github,index',
+        description: 'cv site with my projects'
+      },
+      styles: ['index.css'],
+      isAuthenticated: true,
+    };
+  }
 
   @Get('/about')
-  @Render('about')
+  @Render('pages/about')
   getAboutPage() {
     return {
-      layout: 'main',
+      layout: 'layouts/main',
       title: 'egorsufiyarov | about',
       meta: {
         keywords: 'software,cv,github,about',
@@ -27,10 +51,10 @@ export class AppController {
   }
 
   @Get('/hobbies')
-  @Render('hobbies')
+  @Render('pages/hobbies')
   getHobbiesPage() {
     return {
-      layout: 'main',
+      layout: 'layouts/main',
       title: 'egorsufiyarov | hobbies',
       meta: {
         keywords: 'github,portfolio,frontend,hobbies',
@@ -40,67 +64,11 @@ export class AppController {
     };
   }
 
-  @Get('/')
-  @Render('index')
-  getIndexPage() {
-    return {
-      layout: 'main',
-      title: 'egorsufiyarov | index',
-      meta: {
-        keywords: 'software,cv,github,index',
-        description: 'cv site with my projects'
-      },
-      styles: ['index.css'],
-      isAuthenticated: true,
-      user: {
-        name: 'Егор Суфияров',
-        avatar: '/pics/my_photo.jpg',
-        profileLink: '/about'
-      }
-    };
-  }
-
-  @Get('/projects')
-  @Render('projects')
-  getProjectsPage() {
-    return {
-      layout: 'main',
-      title: 'egorsufiyarov | projects',
-      meta: {
-        keywords: 'software,cv,github,projects',
-        description: 'page with my projects'
-      },
-      styles: ['projects.css'],
-      projects: [
-        {
-          title: "Мессенджер",
-          description: "Реализация чата с end-to-end шифрованием",
-          stack: ["C#", "Postgres", "Kafka", "ASP.NET Core"],
-          githubLink: "https://github.com/krbyhome",
-          demoLink: "https://telegram.org"
-        },
-        {
-          title: "Библиотека для трейсинга",
-          description: "Высокопроизводительная библиотека для логирования",
-          stack: ["С++", "CMake", "Google Test"],
-          demoLink: "https://opentelemetry.io"
-        },
-        {
-          title: "Модель банка",
-          description: "Микросервисная архитектура банковской системы",
-          stack: ["C#", "Docker", "Kubernetes", "RabbitMQ"],
-          githubLink: "https://github.com/krbyhome",
-          demoLink: "https://sber.ru"
-        }
-      ]
-    };
-  }
-
   @Get('/schedule')
-  @Render('schedule')
+  @Render('pages/schedule')
   getSchedulePage() {
     return {
-      layout: 'main',
+      layout: 'layouts/main',
       title: 'egorsufiyarov | schedule',
       meta: {
         keywords: 'schedule,meetings,calendar',
@@ -118,44 +86,38 @@ export class AppController {
     };
   }
 
-  @Get('/technologies')
-  @Render('posts')
-  getTechnologiesPage() {
-    return {
-      layout: 'main',
-      title: 'egorsufiyarov | stack',
-      meta: {
-        keywords: 'github,portfolio,frontend,stack',
-        description: 'page with my stack'
-      },
-      styles: ['technologies.css'],
-      stackSections: [
-        {
-          title: 'Языки',
-          items: [
-            'C++, Python - для работы',
-            'Go, C# - для пет проектов',
-            '<del>Java - для кайфа</del>'
-          ]
-        },
-        {
-          title: 'ДБшки',
-          items: [
-            'Postgres',
-            'YDB',
-            'MongoDB'
-          ]
-        },
-        {
-          title: 'Всякое другое',
-          items: [
-            'Grafana, Prometheus',
-            'Docker',
-            'Kubernetes',
-            'Все, что я могу найти в интернете'
-          ]
-        }
-      ]
-    };
+  @Post('submit-username')
+  async submitUsername(
+    @Req() req: Request & { session: CustomSession },
+    @Res() res: Response,
+    @Body() body: SubmitNameDto,
+    @Body('returnUrl') returnUrl: string,
+  ) {
+    req.session.username = body.username;
+
+    let user = await this.userService.findOneByName(body.username);
+
+    if (!user) {
+      const dto = new CreateUserDto();
+
+      dto.name = body.username;
+      dto.email = `${body.username}@olalala.com`;
+      dto.avatar_url = 'https://i.pinimg.com/736x/e0/26/ee/e026eeff9f410567a95fab2360af5338.jpg';
+
+      user = await this.userService.create(dto);
+    }
+
+    req.session.userId = user.id;
+
+    res.redirect(returnUrl);
+  }
+
+  @Post('logout')
+  logout(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body('returnUrl') returnUrl: string,
+  ) {
+    req.session.destroy(() => res.redirect(returnUrl));
   }
 }

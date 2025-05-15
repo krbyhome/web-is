@@ -1,0 +1,113 @@
+
+.notifications-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+
+  .notifications-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .notifications-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    font-weight: 600;
+    margin: 0;
+  }
+
+
+  .notifications-table-wrapper {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .notifications-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+  }
+
+  /* Заголовки таблицы */
+  .table-header-row {
+    background-color: #3498db;
+    color: white;
+  }
+
+  .table-header {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 500;
+  }
+
+  .actions-header {
+    text-align: center;
+    width: 120px;
+  }
+
+  /* Строки таблицы */
+  .table-row {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background-color 0.2s;
+  }
+
+  .table-row:hover {
+    background-color: #f5f5f5;
+  }
+
+  .table-row.unread {
+    background-color: #f0f7ff;
+    font-weight: 500;
+  }
+
+  /* Ячейки таблицы */
+  .table-data {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+
+  .message-cell {
+    max-width: 600px;
+    word-break: break-word;
+  }
+
+  .date-cell {
+    white-space: nowrap;
+    color: #666;
+  }
+
+  .actions-cell {
+    text-align: center;
+  }
+
+  /* Кнопка удаления */
+  .delete-form {
+    display: inline;
+  }
+
+  .delete-button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .delete-button:hover {
+    background: #c0392b;
+  }
+
+  .delete-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }

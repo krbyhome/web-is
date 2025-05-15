@@ -38,11 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
         ]
     };
 
-    // timeline-embed - айди блока, в котором будет отображаться шкала
-    // timelineData - объект данных для шкалы
-    // scale_factor - начальный уровень масштабирования
-    // language - язык интерфейса шкалы
-    // duration - длительность анимации
     window.timeline = new TL.Timeline('timeline-embed', timelineData, {
         scale_factor: 1,
         language: "ru",
