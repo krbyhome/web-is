@@ -13,7 +13,7 @@
 </div>
 
 {{#if isAuthenticated}}
-<form class="comment-form" action="/comments/{{project.id}}" method="POST">
+<form class="comment-form" action="/api/comments/{{project.id}}" method="POST">
   <textarea name="content" placeholder="Оставьте комментарий..." required></textarea>
   <button type="submit" class="btn-submit">Отправить</button>
 </form>
