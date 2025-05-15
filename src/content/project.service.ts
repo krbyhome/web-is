@@ -15,21 +15,21 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>,
     @InjectRepository(Technology)
     private readonly technologyRepository: Repository<Technology>,
-  ) {}
+  ) { }
 
   async create(createProjectDto: CreateProjectDto, author: { id: string; username?: string }): Promise<Project> {
     const { technologyIds, ...projectData } = createProjectDto;
-    
+
     const technologies = await this.technologyRepository.findBy({
       id: In(technologyIds || []),
     });
-  
+
     const project = this.projectRepository.create({
       ...projectData,
       author: { id: author.id },
       technologies,
     });
-  
+
     return await this.projectRepository.save(project);
   }
 

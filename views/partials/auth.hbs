@@ -1,15 +1,15 @@
 <div class="auth">
-    {{#if isAuthenticated}}
-      <span>Welcome, <a href="/profile" style="text-transform: none;">{{username}}</a>!</span>
-      <form class="header__auth-form-logout" action="/logout" method="POST">
-        <button type="submit" class="header__auth-button">Logout</button>
-        <input type="hidden" name="returnUrl" value="{{currentUrl}}">
-      </form>
-    {{else}}
-      <form class="header__auth-form-signin" action="/submit-username" method="POST">
-        <input type="text" class="header__auth-input" name="username" placeholder="your username here" />
-        <input type="hidden" name="returnUrl" value="{{currentUrl}}">
-        <button type="submit" class="header__auth-button">Sign in</button>
-      </form>
-    {{/if}}
+  {{#if isAuthenticated}}
+  <span>Welcome, <a href="/profile" style="text-transform: none;">{{username}}</a>!</span>
+  <form class="header__auth-form-logout" action="/logout" method="POST">
+    <button type="submit" class="header__auth-button">Logout</button>
+    <input type="hidden" name="returnUrl" value="{{currentUrl}}">
+  </form>
+  {{else}}
+  <form class="header__auth-form-signin" action="/submit-username" method="POST">
+    <input type="text" class="header__auth-input" name="username" placeholder="your username here" />
+    <input type="hidden" name="returnUrl" value="{{currentUrl}}">
+    <button type="submit" class="header__auth-button">Sign in</button>
+  </form>
+  {{/if}}
 </div>

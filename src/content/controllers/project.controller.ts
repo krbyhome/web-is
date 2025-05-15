@@ -28,7 +28,7 @@ export class ProjectController {
   constructor(
     private readonly projectService: ProjectService,
     private readonly notificationService: NotificationsService,
-  ) {}
+  ) { }
 
   @Post()
   @ApiOperation({
@@ -95,7 +95,7 @@ export class ProjectController {
     if (!projects) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
-    
+
     return {
       data: projects.map(mapProjectToDto),
     };
@@ -125,7 +125,7 @@ export class ProjectController {
   })
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const project = await this.projectService.findOne(id);
-    
+
     if (!project) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     }

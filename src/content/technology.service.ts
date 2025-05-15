@@ -13,7 +13,7 @@ export class TechnologyService {
     private techRepository: Repository<Technology>,
     @InjectRepository(Project)
     private projectRepository: Repository<Project>
-  ) {}
+  ) { }
 
   async create(createTechDto: CreateTechnologyDto): Promise<Technology> {
     const technology = this.techRepository.create(createTechDto);
@@ -36,7 +36,7 @@ export class TechnologyService {
       ...createTechDto,
       projects: [project]
     });
-    
+
     return this.techRepository.save(technology);
   }
 

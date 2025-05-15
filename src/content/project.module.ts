@@ -24,4 +24,4 @@ import { CommentModule } from 'src/interactions/comment.module';
   controllers: [ProjectController, ProjectMvcController],
   exports: [ProjectService],
 })
-export class ProjectModule {}
+export class ProjectModule { }

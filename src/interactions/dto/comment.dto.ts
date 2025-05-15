@@ -17,18 +17,18 @@ export class CommentDto {
   @ApiProperty({ example: 'Great project!', description: 'Comment content' })
   content: string;
 
-  @ApiProperty({ 
+  @ApiProperty({
     type: Object,
     example: { name: 'Egor' },
-    description: 'Comment author' 
+    description: 'Comment author'
   })
   author: {
     name: string;
   };
 
-  @ApiProperty({ 
+  @ApiProperty({
     example: '0b2bef9a-9bf2-4948-8768-7d35538d3c68',
-    description: 'Project ID' 
+    description: 'Project ID'
   })
   projectId: string;
 }

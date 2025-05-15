@@ -15,10 +15,10 @@ import { CommentService } from '../comment.service';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { UpdateCommentDto } from '../dto/update-comment.dto';
 import { Request } from 'express';
-import { 
-  ApiBody, 
-  ApiOperation, 
-  ApiResponse, 
+import {
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
   ApiTags,
   ApiParam,
   ApiBearerAuth,
@@ -34,16 +34,16 @@ import { mapCommentToDto } from '../dto/comment.dto';
 @ApiCookieAuth('session-id')
 @Controller('api/comments')
 export class CommentController {
-  constructor(private readonly commentService: CommentService) {}
+  constructor(private readonly commentService: CommentService) { }
 
   @Post()
-  @ApiOperation({ 
-    summary: 'Create comment', 
-    description: 'Creates a new comment for a project' 
+  @ApiOperation({
+    summary: 'Create comment',
+    description: 'Creates a new comment for a project'
   })
-  @ApiBody({ 
+  @ApiBody({
     type: CreateCommentDto,
-    description: 'Comment creation data' 
+    description: 'Comment creation data'
   })
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -64,7 +64,7 @@ export class CommentController {
   })
   async create(
     @Body() createCommentDto: CreateCommentDto,
-    @Req() req: Request & { session: CustomSession},
+    @Req() req: Request & { session: CustomSession },
   ): Promise<CommentResponseDto> {
     if (!req.session.userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
@@ -72,16 +72,16 @@ export class CommentController {
 
     const comment = await this.commentService.create(createCommentDto, req.session.userId);
     comment.author.name = req.session.username!;
-  
+
     return {
       comment: mapCommentToDto(comment)
     };
   }
 
   @Get('project/:projectId')
-  @ApiOperation({ 
-    summary: 'Get project comments', 
-    description: 'Returns all comments for specified project' 
+  @ApiOperation({
+    summary: 'Get project comments',
+    description: 'Returns all comments for specified project'
   })
   @ApiParam({
     name: 'projectId',
@@ -117,9 +117,9 @@ export class CommentController {
   }
 
   @Patch(':id')
-  @ApiOperation({ 
-    summary: 'Update comment', 
-    description: 'Updates existing comment. Only comment author can update.' 
+  @ApiOperation({
+    summary: 'Update comment',
+    description: 'Updates existing comment. Only comment author can update.'
   })
   @ApiParam({
     name: 'id',
@@ -127,9 +127,9 @@ export class CommentController {
     description: 'Comment ID',
     example: 1
   })
-  @ApiBody({ 
+  @ApiBody({
     type: UpdateCommentDto,
-    description: 'Comment update data' 
+    description: 'Comment update data'
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -159,9 +159,9 @@ export class CommentController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateCommentDto: UpdateCommentDto,
-    @Req() req: Request & {session: CustomSession},
+    @Req() req: Request & { session: CustomSession },
   ): Promise<CommentResponseDto> {
-    if (!req.session.userId){
+    if (!req.session.userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
@@ -176,9 +176,9 @@ export class CommentController {
   }
 
   @Delete(':id')
-  @ApiOperation({ 
-    summary: 'Delete comment', 
-    description: 'Deletes existing comment. Only comment author can delete.' 
+  @ApiOperation({
+    summary: 'Delete comment',
+    description: 'Deletes existing comment. Only comment author can delete.'
   })
   @ApiParam({
     name: 'id',
@@ -209,9 +209,9 @@ export class CommentController {
   })
   async remove(
     @Param('id', ParseIntPipe) id: number,
-    @Req() req: Request & {session : CustomSession},
+    @Req() req: Request & { session: CustomSession },
   ): Promise<CommentResponseDto> {
-    if (!req.session.userId){
+    if (!req.session.userId) {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 

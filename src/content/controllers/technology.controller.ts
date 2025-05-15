@@ -21,7 +21,7 @@ import { ApiBadRequestResponse, ApiBody, ApiCreatedResponse, ApiInternalServerEr
 @ApiTags('Project Technologies')
 @Controller('/api/projects/:project_id/technologies')
 export class TechnologyController {
-  constructor(private readonly techService: TechnologyService) {}
+  constructor(private readonly techService: TechnologyService) { }
 
   @Post()
   @ApiOperation({
@@ -173,7 +173,7 @@ export class TechnologyController {
     if (!tech) {
       throw new HttpException('Technology not found', HttpStatus.NOT_FOUND);
     }
-    
+
     return this.techService.updateInProject(projectId, id, updateTechDto);
   }
 
@@ -210,7 +210,7 @@ export class TechnologyController {
     if (!tech) {
       throw new HttpException('Technology not found', HttpStatus.NOT_FOUND);
     }
-    
+
     const technology = await this.techService.removeFromProject(projectId, id);
 
     return mapTechnologyToDto(technology);

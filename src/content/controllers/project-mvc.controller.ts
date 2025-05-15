@@ -17,14 +17,14 @@ export class ProjectMvcController {
     private readonly commentService: CommentService,
     private readonly userService: UserService,
     private readonly notificationService: NotificationsService
-  ) {}
+  ) { }
 
   @Get()
   @Render('pages/projects/list')
   async listProjects(@Req() req: Request & { session: CustomSession }) {
     try {
       let projects;
-      
+
       if (req.query.authorId) {
         projects = await this.projectService.findByAuthorId(req.query.authorId as string);
       } else if (req.session.userId && req.query.my) {
@@ -105,88 +105,88 @@ export class ProjectMvcController {
     }));
   }
 
-    @Get('new')
-    @Render('pages/projects/new')
-    async newProjectForm(@Req() req: Request & { session: CustomSession }) {
-        if (!req.session.userId) {
-            return { redirect: '/login' };
-        }
-
-        return {
-            title: 'Создать новый проект',
-            isAuthenticated: true,
-            currentUserId: req.session.userId,
-            styles: ['project-new.css'],
-            layout: 'layouts/main'
-        };
+  @Get('new')
+  @Render('pages/projects/new')
+  async newProjectForm(@Req() req: Request & { session: CustomSession }) {
+    if (!req.session.userId) {
+      return { redirect: '/login' };
     }
 
-    @Post()
-    async createProject(
-        @Req() req: Request & { session: CustomSession },
-        @Res() res: Response,
-        @Body() formData: {
-            title: string;
-            description: string;
-            techNames: string[];
-            techCategories: string[];
-            githubLink?: string;
-            demoLink?: string;
-        }
-    ) {
-        if (!req.session.userId) {
-            throw new UnauthorizedException();
-        }
+    return {
+      title: 'Создать новый проект',
+      isAuthenticated: true,
+      currentUserId: req.session.userId,
+      styles: ['project-new.css'],
+      layout: 'layouts/main'
+    };
+  }
 
-        const technologyIds: number[] = [];
-        for (let i = 0; i < formData.techNames.length; i++) {
-            if (formData.techNames[i].trim()) {
-            const tech = await this.techService.create({
-                name: formData.techNames[i].trim(),
-                category: formData.techCategories[i] || 'tool'
-            });
-            technologyIds.push(tech.id);
-            }
-        }
-
-        const project = await this.projectService.create(
-            {
-            title: formData.title,
-            description: formData.description,
-            githubLink: formData.githubLink,
-            demoLink: formData.demoLink,
-            technologyIds
-            },
-            { id: req.session.userId, username: req.session.username }
-        );
-
-        const notifyDto = new CreateNotificationDto();
-        notifyDto.user_id = req.session.userId;
-        notifyDto.message = `Ты завел проект ${project.id}`;
-        await this.notificationService.create(notifyDto);
-
-        res.redirect(`/projects/view/${project.id}`)
+  @Post()
+  async createProject(
+    @Req() req: Request & { session: CustomSession },
+    @Res() res: Response,
+    @Body() formData: {
+      title: string;
+      description: string;
+      techNames: string[];
+      techCategories: string[];
+      githubLink?: string;
+      demoLink?: string;
+    }
+  ) {
+    if (!req.session.userId) {
+      throw new UnauthorizedException();
     }
 
-    @Get('edit/:id')
-    @Render('pages/projects/edit')
-    async editProjectForm(
+    const technologyIds: number[] = [];
+    for (let i = 0; i < formData.techNames.length; i++) {
+      if (formData.techNames[i].trim()) {
+        const tech = await this.techService.create({
+          name: formData.techNames[i].trim(),
+          category: formData.techCategories[i] || 'tool'
+        });
+        technologyIds.push(tech.id);
+      }
+    }
+
+    const project = await this.projectService.create(
+      {
+        title: formData.title,
+        description: formData.description,
+        githubLink: formData.githubLink,
+        demoLink: formData.demoLink,
+        technologyIds
+      },
+      { id: req.session.userId, username: req.session.username }
+    );
+
+    const notifyDto = new CreateNotificationDto();
+    notifyDto.user_id = req.session.userId;
+    notifyDto.message = `Ты завел проект ${project.id}`;
+    await this.notificationService.create(notifyDto);
+
+    res.redirect(`/projects/view/${project.id}`)
+  }
+
+  @Get('edit/:id')
+  @Render('pages/projects/edit')
+  async editProjectForm(
     @Param('id') id: string,
     @Req() req: Request & { session: CustomSession }
-    ) {
+  ) {
     if (!req.session.userId) {
-        return { redirect: '/login' };
+      return { redirect: '/login' };
     }
 
     try {
-        const project = await this.projectService.findOne(id);
-        const technologies = await this.techService.findAllByProject(id);
+      const project = await this.projectService.findOne(id);
+      const technologies = await this.techService.findAllByProject(id);
 
-        if (project.author.id !== req.session.userId) {
+      if (project.author.id !== req.session.userId) {
         throw new ForbiddenException('Вы не можете редактировать этот проект');
-        }
+      }
 
-        return {
+      return {
         title: 'Редактировать проект',
         project,
         technologies,
@@ -194,67 +194,67 @@ export class ProjectMvcController {
         currentUserId: req.session.userId,
         styles: ['project-new.css'],
         layout: 'layouts/main'
-        };
+      };
     } catch (error) {
-        console.error('Error loading project for edit:', error);
-        return {
+      console.error('Error loading project for edit:', error);
+      return {
         error: 'Не удалось загрузить проект для редактирования',
         isAuthenticated: !!req.session.userId,
         styles: ['project-new.css'],
         layout: 'layouts/main'
-        };
+      };
     }
-    }
+  }
 
-    @Post('edit/:id')
-    async updateProject(
+  @Post('edit/:id')
+  async updateProject(
     @Param('id') id: string,
     @Req() req: Request & { session: CustomSession },
     @Res() res: Response,
     @Body() formData: {
-        title: string;
-        description: string;
-        techNames: string[];
-        techCategories: string[];
-        githubLink?: string;
-        demoLink?: string;
+      title: string;
+      description: string;
+      techNames: string[];
+      techCategories: string[];
+      githubLink?: string;
+      demoLink?: string;
     }
-    ) {
+  ) {
     if (!req.session.userId) {
-        throw new UnauthorizedException();
+      throw new UnauthorizedException();
     }
 
     try {
-        const project = await this.projectService.findOne(id);
-        if (project.author.id !== req.session.userId) {
+      const project = await this.projectService.findOne(id);
+      if (project.author.id !== req.session.userId) {
         throw new ForbiddenException('Вы не можете редактировать этот проект');
-        }
+      }
 
-        const technologyIds: number[] = [];
-        for (let i = 0; i < formData.techNames.length; i++) {
+      const technologyIds: number[] = [];
+      for (let i = 0; i < formData.techNames.length; i++) {
         if (formData.techNames[i].trim()) {
-            const tech = await this.techService.create({
+          const tech = await this.techService.create({
             name: formData.techNames[i].trim(),
             category: formData.techCategories[i] || 'tool'
-            });
-            technologyIds.push(tech.id);
+          });
+          technologyIds.push(tech.id);
         }
-        }
+      }
 
-        const updateDto: UpdateProjectDto = {
+      const updateDto: UpdateProjectDto = {
         title: formData.title,
         description: formData.description,
         githubLink: formData.githubLink,
         demoLink: formData.demoLink,
         technologyIds
-        };
+      };
 
-        await this.projectService.update(id, updateDto);
+      await this.projectService.update(id, updateDto);
 
-        res.redirect(`/projects/view/${id}`);
+      res.redirect(`/projects/view/${id}`);
     } catch (error) {
-        console.error('Error updating project:', error);
-        res.redirect(`/projects/edit/${id}?error=Не удалось обновить проект`);
+      console.error('Error updating project:', error);
+      res.redirect(`/projects/edit/${id}?error=Не удалось обновить проект`);
     }
-    }
+  }
 }

@@ -1,22 +1,22 @@
 <div class="profile-container">
-    {{#if user}}      
-      <div class="profile-header">
-        <h1>{{user.name}}</h1>
-        <div class="profile-details">
-          <p><strong>Email:</strong> {{user.email}}</p>
-          {{#if user.avatar_url}}
-            <img src="{{user.avatar_url}}" alt="Аватар" class="profile-avatar">
-          {{/if}}
-        </div>
-      </div>
-      
-      <div class="profile-actions">
-        <a href="/profile/edit" class="edit-button">Редактировать профиль</a>
-      </div>
-    {{else}}
-      <div class="auth-message">
-        <p>Вы не авторизованы</p>
-        <a href="/login" class="login-link">Войти в систему</a>
-      </div>
-    {{/if}}
+  {{#if user}}
+  <div class="profile-header">
+    <h1>{{user.name}}</h1>
+    <div class="profile-details">
+      <p><strong>Email:</strong> {{user.email}}</p>
+      {{#if user.avatar_url}}
+      <img src="{{user.avatar_url}}" alt="Аватар" class="profile-avatar">
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="profile-actions">
+    <a href="/profile/edit" class="edit-button">Редактировать профиль</a>
+  </div>
+  {{else}}
+  <div class="auth-message">
+    <p>Вы не авторизованы</p>
+    <a href="/login" class="login-link">Войти в систему</a>
+  </div>
+  {{/if}}
 </div>

@@ -17,42 +17,42 @@ export const mapProjectToDto = (project: Project): ProjectResponseDto => ({
 });
 
 export class ProjectResponseDto {
-  @ApiProperty({ 
-    example: 'a178acac-db03-4a67-a33b-31caaa4e590d', 
-    description: 'Project ID (UUID)' 
+  @ApiProperty({
+    example: 'a178acac-db03-4a67-a33b-31caaa4e590d',
+    description: 'Project ID (UUID)'
   })
   id: string;
 
-  @ApiProperty({ 
-    example: 'My Awesome Project', 
-    description: 'Project title' 
+  @ApiProperty({
+    example: 'My Awesome Project',
+    description: 'Project title'
   })
   title: string;
 
-  @ApiProperty({ 
-    example: 'This project does amazing things', 
-    description: 'Project description' 
+  @ApiProperty({
+    example: 'This project does amazing things',
+    description: 'Project description'
   })
   description: string;
 
-  @ApiProperty({ 
-    example: 42, 
+  @ApiProperty({
+    example: 42,
     description: 'Number of views',
-    default: 0 
+    default: 0
   })
   views: number;
 
-  @ApiProperty({ 
-    example: 'https://github.com/user/project', 
+  @ApiProperty({
+    example: 'https://github.com/user/project',
     description: 'GitHub repository link',
-    required: false 
+    required: false
   })
   githubLink?: string;
 
-  @ApiProperty({ 
-    example: 'https://project-demo.com', 
+  @ApiProperty({
+    example: 'https://project-demo.com',
     description: 'Live demo link',
-    required: false 
+    required: false
   })
   demoLink?: string;
 

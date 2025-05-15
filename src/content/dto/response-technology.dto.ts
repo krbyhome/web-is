@@ -9,15 +9,15 @@ export const mapTechnologyToDto = (technology: Technology): TechnologyResponseDt
 });
 
 export class TechnologyResponseDto {
-  @ApiProperty({ 
-    example: 1, 
-    description: 'Technology ID' 
+  @ApiProperty({
+    example: 1,
+    description: 'Technology ID'
   })
   id: number;
 
-  @ApiProperty({ 
-    example: 'TypeScript', 
-    description: 'Technology name' 
+  @ApiProperty({
+    example: 'TypeScript',
+    description: 'Technology name'
   })
   name: string;
 
@@ -28,18 +28,18 @@ export class TechnologyResponseDto {
   })
   category: string;
 
-  @ApiProperty({ 
-    example: 'https://example.com/icons/typescript.png', 
+  @ApiProperty({
+    example: 'https://example.com/icons/typescript.png',
     description: 'Technology icon URL',
-    required: false 
+    required: false
   })
   iconUrl?: string;
 }
 
 export class TechnologyListResponseDto {
-  @ApiProperty({ 
+  @ApiProperty({
     type: [TechnologyResponseDto],
-    description: 'Array of technologies' 
+    description: 'Array of technologies'
   })
   data: TechnologyResponseDto[];
 }

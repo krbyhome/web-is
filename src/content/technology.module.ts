@@ -14,4 +14,4 @@ import { ProjectModule } from './project.module';
   providers: [TechnologyService],
   exports: [TechnologyService],
 })
-export class TechnologyModule {}
+export class TechnologyModule { }
