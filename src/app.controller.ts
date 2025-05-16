@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Render, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Header, Post, Render, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AppService } from './app.service';
 import { CustomSession } from './middleware/auth.middleware';
@@ -15,6 +15,9 @@ export class AppController {
 
 
   @Get('/')
+  @Header('Cache-Control', 'no-store, no-cache, must-revalidate')
+  @Header('Pragma', 'no-cache')
+  @Header('Expires', '0')
   @Render('pages/index')
   getIndexPage() {
     return {
@@ -29,6 +32,9 @@ export class AppController {
   }
 
   @Get('/about')
+  @Header('Cache-Control', 'no-store, no-cache, must-revalidate')
+  @Header('Pragma', 'no-cache')
+  @Header('Expires', '0')
   @Render('pages/about')
   getAboutPage() {
     return {
@@ -86,6 +92,9 @@ export class AppController {
   }
 
   @Post('submit-username')
+  @Header('Cache-Control', 'no-store, no-cache, must-revalidate')
+  @Header('Pragma', 'no-cache')
+  @Header('Expires', '0')
   async submitUsername(
     @Req() req: Request & { session: CustomSession },
     @Res() res: Response,
