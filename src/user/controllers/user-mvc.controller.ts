@@ -2,6 +2,7 @@ import { Controller, Get, Render, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from '../user.service';
 import { CustomSession } from 'src/middleware/auth.middleware';
+import { CacheControl } from 'src/common/decorators/cache-controll.decorator';
 
 @Controller('profile')
 export class UserMvcController {
@@ -9,6 +10,7 @@ export class UserMvcController {
 
   @Get()
   @Render('pages/users/user-view')
+  @CacheControl(5)
   async view(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.username) {
       console.warn('NOT AUTH');
@@ -30,6 +32,7 @@ export class UserMvcController {
 
   @Get('edit')
   @Render('pages/users/user-edit')
+  @CacheControl(5)
   async edit(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.username) {
       console.warn('NOT AUTH');

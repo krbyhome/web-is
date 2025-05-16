@@ -2,6 +2,7 @@ import { Controller, Get, Render, Req } from '@nestjs/common';
 import { NotificationsService } from '../notifications.service';
 import { UpdateNotificationDto } from '../dto/update-notification.dto';
 import { CustomSession } from 'src/middleware/auth.middleware';
+import { CacheControl } from 'src/common/decorators/cache-controll.decorator';
 
 @Controller('notifications')
 export class NotificationsMvcController {
@@ -9,6 +10,7 @@ export class NotificationsMvcController {
 
   @Get()
   @Render('pages/notifications/notifications')
+  @CacheControl(5)
   async view(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.userId) {
       return {

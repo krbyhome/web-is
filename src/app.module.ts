@@ -13,6 +13,7 @@ import { TechnologyModule } from './content/technology.module';
 import { ProjectModule } from './content/project.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { S3Module } from './s3/s3.module';
 
 
 @Module({
@@ -37,6 +38,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       csrfPrevention: false,
       context: ({ req }) => ({ req }),
     }),
+    S3Module
   ],
   controllers: [AppController],
   providers: [AppService],

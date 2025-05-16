@@ -11,6 +11,8 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { GraphQLExceptionFilter } from './filters/graphql-exception.filter';
+import { ElapsedTimeInterceptor } from './interceptors/elapsed-time.interceptor';
+import { EtagInterceptor } from './interceptors/etag.interceptor';
 
 
 
@@ -83,6 +85,11 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, swaggerconfig);
   SwaggerModule.setup('docs', app, documentFactory);
+
+  app.useGlobalInterceptors(
+    new EtagInterceptor(),
+    new ElapsedTimeInterceptor(),
+  );
 
   const config = configuration();
 

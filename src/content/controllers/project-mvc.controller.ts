@@ -8,6 +8,7 @@ import { UserService } from 'src/user/user.service';
 import { NotificationsService } from 'src/notifications/notifications.service';
 import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
 import { UpdateProjectDto } from '../dto/update-project.dto';
+import { CacheControl } from 'src/common/decorators/cache-controll.decorator';
 
 @Controller('projects')
 export class ProjectMvcController {
@@ -21,6 +22,7 @@ export class ProjectMvcController {
 
   @Get()
   @Render('pages/projects/list')
+  @CacheControl(5)
   async listProjects(@Req() req: Request & { session: CustomSession }) {
     try {
       let projects;
@@ -54,6 +56,7 @@ export class ProjectMvcController {
 
   @Get('view/:id')
   @Render('pages/projects/view')
+  @CacheControl(5)
   async viewProject(
     @Param('id') id: string,
     @Req() req: Request & { session: CustomSession }
@@ -107,6 +110,7 @@ export class ProjectMvcController {
 
   @Get('new')
   @Render('pages/projects/new')
+  @CacheControl(2)
   async newProjectForm(@Req() req: Request & { session: CustomSession }) {
     if (!req.session.userId) {
       return { redirect: '/login' };
@@ -122,6 +126,7 @@ export class ProjectMvcController {
   }
 
   @Post()
+  @CacheControl(2)
   async createProject(
     @Req() req: Request & { session: CustomSession },
     @Res() res: Response,
@@ -170,6 +175,7 @@ export class ProjectMvcController {
 
   @Get('edit/:id')
   @Render('pages/projects/edit')
+  @CacheControl(2)
   async editProjectForm(
     @Param('id') id: string,
     @Req() req: Request & { session: CustomSession }
