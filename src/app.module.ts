@@ -32,6 +32,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
+      csrfPrevention: false,
       context: ({ req }) => ({ req }),
     }),
   ],
