@@ -1,2 +1,2 @@
-ER диаграмма баы данных
-![alt text](<krbydb - public.erd.png>)
+ER диаграмма базы данных
+![alt text](<er.png>)
