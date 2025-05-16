@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
-  {{> head}}
+{{> head}}
 
-  <body>
-    {{> header}}
+<body>
+  {{> header}}
 
-    <main class="main">
-      {{{body}}}
-    </main>
+  <main class="main">
+    {{{body}}}
+  </main>
 
-    {{> footer}}
+  {{> footer}}
 
-    {{#each scripts}}
-      <script src="{{this}}"></script>
-    {{/each}}
-    {{> common_scripts}}
-  </body>
+  {{#each scripts}}
+  <script src="{{this}}"></script>
+  {{/each}}
+  {{> common_scripts}}
+</body>
+
 </html>

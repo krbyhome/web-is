@@ -6,6 +6,7 @@ import { UserController } from './controllers/user.controller';
 import { UserMvcController } from './controllers/user-mvc.controller';
 import { Notification } from 'src/notifications/entities/notification.entity';
 import { NotificationsModule } from 'src/notifications/notifications.module';
+import { UserResolver } from './user.resolver';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
     NotificationsModule
   ],
   controllers: [UserController, UserMvcController],
-  providers: [UserService],
+  providers: [UserService, UserResolver],
   exports: [UserService],
 })
 export class UserModule { }

@@ -5,13 +5,14 @@ import { TechnologyService } from './technology.service';
 import { Project } from './entities/project.entity';
 import { TechnologyController } from './controllers/technology.controller';
 import { ProjectModule } from './project.module';
+import { TechnologyResolver } from './technology.resolver';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Technology, Project]),
   ],
   controllers: [TechnologyController],
-  providers: [TechnologyService],
+  providers: [TechnologyService, TechnologyResolver],
   exports: [TechnologyService],
 })
 export class TechnologyModule { }

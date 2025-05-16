@@ -10,6 +10,7 @@ import * as methodOverride from 'method-override';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { GraphQLExceptionFilter } from './filters/graphql-exception.filter';
 
 
 
@@ -72,6 +73,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new GraphQLExceptionFilter());
 
   const swaggerconfig = new DocumentBuilder()
     .setTitle('Portfolio with projects forum')

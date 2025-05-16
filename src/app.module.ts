@@ -11,6 +11,9 @@ import { CommentModule } from './interactions/comment.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { TechnologyModule } from './content/technology.module';
 import { ProjectModule } from './content/project.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
 
 @Module({
   imports: [
@@ -26,6 +29,11 @@ import { ProjectModule } from './content/project.module';
     NotificationsModule,
     TechnologyModule,
     ProjectModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      context: ({ req }) => ({ req }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

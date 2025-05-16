@@ -11,6 +11,7 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
 import { ProjectMvcController } from './controllers/project-mvc.controller';
 import { Comment } from 'src/interactions/entities/comment.entity';
 import { CommentModule } from 'src/interactions/comment.module';
+import { ProjectsResolver } from './project.resolver';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { CommentModule } from 'src/interactions/comment.module';
     TechnologyModule,
     NotificationsModule
   ],
-  providers: [ProjectService],
+  providers: [ProjectService, ProjectsResolver],
   controllers: [ProjectController, ProjectMvcController],
   exports: [ProjectService],
 })

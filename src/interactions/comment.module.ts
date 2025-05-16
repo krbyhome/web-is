@@ -8,6 +8,7 @@ import { ProjectModule } from 'src/content/project.module';
 import { Project } from 'src/content/entities/project.entity';
 import { NotificationsModule } from 'src/notifications/notifications.module';
 import { CommentMvcController } from './controllers/comment-mvc.controller';
+import { CommentsResolver } from './comment.resolver';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { CommentMvcController } from './controllers/comment-mvc.controller';
     UserModule,
     NotificationsModule
   ],
-  providers: [CommentService],
+  providers: [CommentService, CommentsResolver],
   controllers: [CommentController, CommentMvcController],
   exports: [CommentService],
 })

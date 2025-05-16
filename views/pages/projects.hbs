@@ -1,36 +1,35 @@
-
 <h1 class="main__title">Мои проекты</h1>
 
 <section class="projects">
   {{#each projects}}
-    <article class="project-card">
-      <header class="project-header">
-        <h2 class="project-title">{{this.title}}</h2>
-        
-        <div class="project-links">
-          {{#if this.githubLink}}
-            <a href="{{this.githubLink}}" class="project-link" target="_blank">
-              <i class="fab fa-github"></i> Код
-            </a>
-          {{/if}}
-          {{#if this.demoLink}}
-            <a href="{{this.demoLink}}" class="project-link" target="_blank">
-              <i class="fas fa-external-link-alt"></i> Демо
-            </a>
-          {{/if}}
-        </div>
-      </header>
+  <article class="project-card">
+    <header class="project-header">
+      <h2 class="project-title">{{this.title}}</h2>
 
-      <p class="project-description">{{this.description}}</p>
-
-      <div class="project-stack">
-        <h3 class="stack-title">Стек технологий:</h3>
-        <ul class="stack-list">
-          {{#each this.stack}}
-            <li class="stack-item">{{this}}</li>
-          {{/each}}
-        </ul>
+      <div class="project-links">
+        {{#if this.githubLink}}
+        <a href="{{this.githubLink}}" class="project-link" target="_blank">
+          <i class="fab fa-github"></i> Код
+        </a>
+        {{/if}}
+        {{#if this.demoLink}}
+        <a href="{{this.demoLink}}" class="project-link" target="_blank">
+          <i class="fas fa-external-link-alt"></i> Демо
+        </a>
+        {{/if}}
       </div>
-    </article>
+    </header>
+
+    <p class="project-description">{{this.description}}</p>
+
+    <div class="project-stack">
+      <h3 class="stack-title">Стек технологий:</h3>
+      <ul class="stack-list">
+        {{#each this.stack}}
+        <li class="stack-item">{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </article>
   {{/each}}
 </section>

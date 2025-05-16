@@ -36,6 +36,13 @@ export class CommentService {
     return this.commentRepository.save(comment);
   }
 
+  async findOne(id: number) {
+    return this.commentRepository.findOne({
+      where: { id },
+      relations: ['author', 'project'],
+    });
+  }
+
   async findByProjectId(projectId: string): Promise<Comment[]> {
     return this.commentRepository.find({
       where: { project: { id: projectId } },
