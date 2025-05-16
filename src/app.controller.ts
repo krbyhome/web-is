@@ -25,7 +25,6 @@ export class AppController {
         description: 'cv site with my projects'
       },
       styles: ['index.css'],
-      isAuthenticated: true,
     };
   }
 
