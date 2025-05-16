@@ -24,7 +24,7 @@ export class NotificationsResolver {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Mutation(() => NotificationModel)
-  async create(
+  async createNotification(
     @Args('data') data: CreateNotificationInput,
   ): Promise<NotificationModel> {
     const dto = mapCreateNotificationInputToDto(data);
@@ -58,7 +58,7 @@ export class NotificationsResolver {
   }
 
   @Mutation(() => NotificationModel)
-  async update(
+  async updateNotification(
     @Args('id') id: number,
     @Args('data') data: UpdateNotificationInput,
   ): Promise<NotificationModel> {
@@ -73,7 +73,7 @@ export class NotificationsResolver {
   }
 
   @Mutation(() => NotificationModel)
-  async remove(@Args('id') id: number): Promise<NotificationModel> {
+  async removeNotification(@Args('id') id: number): Promise<NotificationModel> {
     const result = await this.notificationsService.remove(id);
 
     if (!result) {

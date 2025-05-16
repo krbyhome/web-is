@@ -23,7 +23,7 @@ export class UserResolver {
   ) {}
 
   @Mutation(() => UserModel)
-  async create(@Args('data') data: CreateUserInput): Promise<UserModel> {
+  async createUser(@Args('data') data: CreateUserInput): Promise<UserModel> {
     const user = await this.usersService.create(mapCreateUserInputToDto(data));
 
     const notifyDto = new CreateNotificationDto();
@@ -59,7 +59,7 @@ export class UserResolver {
   }
 
   @Mutation(() => UserModel)
-  async update(
+  async updateUser(
     @Args('id') id: string,
     @Args('data') data: UpdateUserInput,
   ): Promise<UserModel> {
@@ -79,7 +79,7 @@ export class UserResolver {
   }
 
   @Mutation(() => UserModel)
-  async remove(@Args('id') id: string): Promise<UserModel> {
+  async removeUser(@Args('id') id: string): Promise<UserModel> {
     const result = await this.usersService.remove(id);
 
     if (result === undefined) {
