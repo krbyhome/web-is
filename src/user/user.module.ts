@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
@@ -7,11 +7,13 @@ import { UserMvcController } from './controllers/user-mvc.controller';
 import { Notification } from 'src/notifications/entities/notification.entity';
 import { NotificationsModule } from 'src/notifications/notifications.module';
 import { UserResolver } from './user.resolver';
+import { S3Module } from 'src/s3/s3.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Notification]),
-    NotificationsModule
+    NotificationsModule,
+    forwardRef(() => S3Module)
   ],
   controllers: [UserController, UserMvcController],
   providers: [UserService, UserResolver],

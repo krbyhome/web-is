@@ -96,3 +96,27 @@
   text-decoration: none;
   font-weight: 600;
 }
+
+.form-input-file {
+  display: block;
+  margin-top: 5px;
+}
+
+.avatar-preview {
+  max-width: 150px;
+  max-height: 150px;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 50%;
+}
+
+.current-avatar {
+  margin-bottom: 10px;
+}
+
+.form-hint {
+  display: block;
+  color: #666;
+  font-size: 0.8em;
+  margin-top: 5px;
+}

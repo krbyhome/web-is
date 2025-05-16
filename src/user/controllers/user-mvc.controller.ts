@@ -43,8 +43,6 @@ export class UserMvcController {
       req.session.username,
     );
 
-    console.log('Found user:', user);
-
     return {
       user: user,
       styles: ['user-edit.css'],

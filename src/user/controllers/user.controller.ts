@@ -12,6 +12,8 @@ import {
   Req,
   Res,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from '../user.service';
@@ -21,7 +23,7 @@ import { User } from '../entities/user.entity';
 import { NotificationsService } from 'src/notifications/notifications.service';
 import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
 import { CustomSession } from 'src/middleware/auth.middleware';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserResponseDto } from '../dto/repsponses/create-user-response.dto';
 import { mapUserToDto, UserDto } from '../dto/user.dto';
 import { PaginatedResponseDto } from 'src/common/dto/paginated-response.dto';
@@ -30,6 +32,8 @@ import { generateLinks } from 'src/common/utils/generate-links';
 import { FindUserResponseDto } from '../dto/repsponses/find-user-response.dto';
 import { UpdateUserResponseDto } from '../dto/repsponses/update-user-response.dto';
 import { DeleteUserResponseDto } from '../dto/repsponses/delete-user-response.dto';
+import { S3Service } from 'src/s3/s3.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -37,6 +41,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly notificationService: NotificationsService,
+    private readonly s3Service: S3Service,
   ) { }
 
   @Post()
@@ -128,7 +133,21 @@ export class UserController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update user', description: 'Update user' })
-  @ApiBody({ type: UpdateUserDto })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        avatar: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @UseInterceptors(FileInterceptor('avatar'))
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Success',
@@ -147,23 +166,38 @@ export class UserController {
     @Req() req: Request & { session: CustomSession },
     @Res() res: Response,
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() avatar?: Express.Multer.File,
   ): Promise<UpdateUserResponseDto> {
-    const result = await this.userService.update(id, updateUserDto);
+    try {
+      if (avatar) {
+        await this.s3Service.uploadFile(id, avatar);
+      }
 
-    if (result === undefined) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    }
+      const result = await this.userService.update(id, updateUserDto);
 
-    const notifyDto = new CreateNotificationDto();
-    notifyDto.user_id = id;
-    notifyDto.message = 'Ты успешно изменил данные профиля';
-    await this.notificationService.create(notifyDto);
+      if (!result) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      }
 
-    req.session.username = result.name;
-    res.redirect('/profile')
+      const notifyDto = new CreateNotificationDto();
+      notifyDto.user_id = id;
+      notifyDto.message = 'Ты успешно изменил данные профиля';
+      await this.notificationService.create(notifyDto);
 
-    return {
-      user: mapUserToDto(result)
+      req.session.username = result.name;
+      res.redirect('/profile');
+
+      return {
+        user: mapUserToDto(result)
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Failed to update user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

@@ -1,12 +1,12 @@
 <h1>Мой стэк</h1>
 
 {{#each stackSections}}
-  <section class="main__section">
-    <h2 class="main__section-title">{{this.title}}</h2>
-    <ul class="main__section-list">
-      {{#each this.items}}
-        <li class="main__section-list-item">{{{this}}}</li>
-      {{/each}}
-    </ul>
-  </section>
+<section class="main__section">
+  <h2 class="main__section-title">{{this.title}}</h2>
+  <ul class="main__section-list">
+    {{#each this.items}}
+    <li class="main__section-list-item">{{{this}}}</li>
+    {{/each}}
+  </ul>
+</section>
 {{/each}}

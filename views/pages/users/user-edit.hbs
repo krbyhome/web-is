@@ -2,7 +2,7 @@
   {{#if user}}
   <h1 class="profile-edit-title">Редактирование профиля</h1>
 
-  <form class="profile-edit-form" action="/api/users/{{user.id}}?_method=PATCH" method="POST">
+  <form class="profile-edit-form" action="/api/users/{{user.id}}?_method=PATCH" method="POST" enctype="multipart/form-data">
     <div class="form-field">
       <label for="username" class="form-label">Юзернейм:</label>
       <input type="text" id="username" name="name" value="{{user.name}}" class="form-input" required minlength="3"
@@ -15,8 +15,14 @@
     </div>
 
     <div class="form-field">
-      <label for="avatar" class="form-label">Ссылка на аватар:</label>
-      <input type="url" id="avatar" name="avatar_url" value="{{user.avatar_url}}" class="form-input" required>
+      <label for="avatar" class="form-label">Аватарка:</label>
+      {{#if user.avatar_url}}
+      <div class="current-avatar">
+        <img src="{{user.avatar_url}}" alt="Текущая аватарка" class="avatar-preview">
+      </div>
+      {{/if}}
+      <input type="file" id="avatar" name="avatar" accept="image/*" class="form-input-file">
+      <small class="form-hint">Допустимые форматы: JPG, PNG, GIF (макс. 5MB)</small>
     </div>
 
     <div class="form-actions">

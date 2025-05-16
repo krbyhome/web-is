@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Service } from './s3.service';
 import { S3Client } from '@aws-sdk/client-s3';
@@ -7,7 +7,7 @@ import { UserModule } from 'src/user/user.module';
 import s3Config from 'src/config/s3.config';
 
 @Module({
-  imports: [ConfigModule.forFeature(s3Config), UserModule],
+  imports: [ConfigModule.forFeature(s3Config), forwardRef(() => UserModule)],
   providers: [
     {
       provide: S3Client,
