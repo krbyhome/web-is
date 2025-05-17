@@ -14,6 +14,8 @@ import { ProjectModule } from './content/project.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { S3Module } from './s3/s3.module';
+import { RequestCountMiddleware } from './middleware/request-count.middleware';
+import { StatModule } from './stats/stat.module';
 
 
 @Module({
@@ -30,6 +32,7 @@ import { S3Module } from './s3/s3.module';
     NotificationsModule,
     TechnologyModule,
     ProjectModule,
+    StatModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: true,
@@ -46,5 +49,6 @@ import { S3Module } from './s3/s3.module';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer.apply(AuthMiddleware).forRoutes('*');
+    consumer.apply(RequestCountMiddleware).forRoutes('*');
   }
 }

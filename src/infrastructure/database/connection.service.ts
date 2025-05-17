@@ -7,6 +7,7 @@ import { Technology } from 'src/content/entities/technology.entity';
 import { Project } from 'src/content/entities/project.entity';
 import { Comment } from 'src/interactions/entities/comment.entity';
 import { Notification } from 'src/notifications/entities/notification.entity';
+import { Stat } from 'src/stats/entities/stat.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -24,7 +25,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: parsedOptions.user,
       password: parsedOptions.password,
       database: parsedOptions.database || 'postgres',
-      entities: [User, Technology, Project, Comment, Notification],
+      entities: [User, Technology, Project, Comment, Notification, Stat],
       synchronize: true,
       ssl: this.getSslConfig(),
       logging: ['warn', 'error'],
