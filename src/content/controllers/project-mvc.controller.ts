@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Param, Req, Res, Post, Body, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Render, Param, Req, Res, Post, Body, UnauthorizedException, ForbiddenException, Header } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CustomSession } from '../../middleware/auth.middleware';
 import { ProjectService } from '../project.service';
@@ -175,7 +175,9 @@ export class ProjectMvcController {
 
   @Get('edit/:id')
   @Render('pages/projects/edit')
-  @CacheControl(2)
+  @Header('Cache-Control', 'no-store, no-cache, must-revalidate')
+  @Header('Pragma', 'no-cache')
+  @Header('Expires', '0')
   async editProjectForm(
     @Param('id') id: string,
     @Req() req: Request & { session: CustomSession }
