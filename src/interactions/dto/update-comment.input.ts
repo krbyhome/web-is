@@ -1,13 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsUUID, IsOptional, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsOptional, MaxLength, IsNumber } from 'class-validator';
 import { UpdateCommentDto } from '../dto/update-comment.dto';
 
 @InputType({ description: 'Input for updating a comment' })
 export class UpdateCommentInput {
-  @Field(() => String, { description: 'ID of the comment to update' })
+  @Field(() => Number, { description: 'ID of the comment to update' })
   @IsNotEmpty()
-  @IsUUID()
-  commentId: string;
+  @IsNumber()
+  commentId: number;
 
   @Field(() => String, { 
     description: 'Updated comment content', 

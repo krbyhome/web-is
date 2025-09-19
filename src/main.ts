@@ -74,8 +74,7 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalFilters(new GraphQLExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(), new GraphQLExceptionFilter());
 
   const swaggerconfig = new DocumentBuilder()
     .setTitle('Portfolio with projects forum')

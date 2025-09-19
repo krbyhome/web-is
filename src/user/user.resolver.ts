@@ -6,7 +6,7 @@ import {
   mapCreateUserInputToDto,
 } from './dto/create-user.input';
 import { CreateNotificationDto } from '../notifications/dto/create-notification.dto';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { ParseUUIDPipe } from '@nestjs/common';
 import {
   mapUpdateUserInputToDto,
   UpdateUserInput,
@@ -14,6 +14,7 @@ import {
 import { UserService } from './user.service';
 import { UserPaginatedResponse } from './dto/repsponses/graphql/user-paginated.response';
 import { mapPaginationInputToDto, PaginationInput } from 'src/common/dto/pagination.dto';
+import { GraphQLError } from 'graphql';
 
 @Resolver()
 export class UserResolver {
@@ -48,11 +49,20 @@ export class UserResolver {
   }
 
   @Query(() => UserModel)
-  async user(@Args('id') id: string): Promise<UserModel> {
+  async user(
+    @Args('id', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      }) 
+    })) id: string,
+  ): Promise<UserModel> {
     const result = await this.usersService.findOne(id);
 
     if (result === null) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      throw new GraphQLError('Not Found');
     }
 
     return mapUserToModel(result);
@@ -60,14 +70,21 @@ export class UserResolver {
 
   @Mutation(() => UserModel)
   async updateUser(
-    @Args('id') id: string,
+    @Args('id', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      })
+    })) id: string,
     @Args('data') data: UpdateUserInput,
   ): Promise<UserModel> {
     const dto = mapUpdateUserInputToDto(data);
     const result = await this.usersService.update(id, dto);
 
     if (result === undefined) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      throw new GraphQLError('Not Found');
     }
 
     const notifyDto = new CreateNotificationDto();
@@ -79,11 +96,20 @@ export class UserResolver {
   }
 
   @Mutation(() => UserModel)
-  async removeUser(@Args('id') id: string): Promise<UserModel> {
+  async removeUser(
+    @Args('id', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      }) 
+    })) id: string,
+  ): Promise<UserModel> {
     const result = await this.usersService.remove(id);
 
     if (result === undefined) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      throw new GraphQLError('Not Found');
     }
 
     return mapUserToModel(result);

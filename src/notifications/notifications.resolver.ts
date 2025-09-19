@@ -18,6 +18,7 @@ import {
   mapUpdateNotificationInputToDto,
   UpdateNotificationInput,
 } from './dto/update-notification.input';
+import { GraphQLError } from 'graphql';
 
 @Resolver()
 export class NotificationsResolver {
@@ -27,34 +28,58 @@ export class NotificationsResolver {
   async createNotification(
     @Args('data') data: CreateNotificationInput,
   ): Promise<NotificationModel> {
-    const dto = mapCreateNotificationInputToDto(data);
-    const notification = await this.notificationsService.create(dto);
+    try {
+      const dto = mapCreateNotificationInputToDto(data);
+      const notification = await this.notificationsService.create(dto);
 
-    return mapNotificationToModel(notification);
+      return mapNotificationToModel(notification);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        },
+      });
+    }
   }
 
   @Query(() => NotificationPaginatedResponse)
   async notifications(
     @Args('pagination', { nullable: true }) pagination: PaginationInput,
   ): Promise<NotificationPaginatedResponse> {
-    const dto = mapPaginationInputToDto(pagination);
-    const result = await this.notificationsService.findAll(dto);
-
-    return {
-      data: result.result.map(mapNotificationToModel),
-      meta: result.meta,
-    };
+    try {
+      const dto = mapPaginationInputToDto(pagination);
+      const result = await this.notificationsService.findAll(dto);
+      return {
+        data: result.result.map(mapNotificationToModel),
+        meta: result.meta,
+      };
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        },
+      });
+    }
   }
 
   @Query(() => NotificationModel)
   async notification(@Args('id') id: number): Promise<NotificationModel> {
-    const result = await this.notificationsService.findOne(id);
-
-    if (!result) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    try {
+      const result = await this.notificationsService.findOne(id);
+      if (!result) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      }
+      return mapNotificationToModel(result);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        },
+      });
     }
-
-    return mapNotificationToModel(result);
   }
 
   @Mutation(() => NotificationModel)
@@ -62,24 +87,42 @@ export class NotificationsResolver {
     @Args('id') id: number,
     @Args('data') data: UpdateNotificationInput,
   ): Promise<NotificationModel> {
-    const dto = mapUpdateNotificationInputToDto(data);
-    const result = await this.notificationsService.update(id, dto);
+    try {
+      const dto = mapUpdateNotificationInputToDto(data);
+      const result = await this.notificationsService.update(id, dto);
 
-    if (!result) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      if (!result) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      }
+
+      return mapNotificationToModel(result);
+   } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        },
+      });
     }
-
-    return mapNotificationToModel(result);
   }
 
   @Mutation(() => NotificationModel)
   async removeNotification(@Args('id') id: number): Promise<NotificationModel> {
-    const result = await this.notificationsService.remove(id);
+    try {
+      const result = await this.notificationsService.remove(id);
 
-    if (!result) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      if (!result) {
+        throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+      }
+
+      return mapNotificationToModel(result);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        },
+      });
     }
-
-    return mapNotificationToModel(result);
   }
 }

@@ -1,13 +1,17 @@
 import { ArgumentsHost, Catch } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
+import { GraphQLError } from 'graphql';
 
-@Catch()
+@Catch(GraphQLError)
 export class GraphQLExceptionFilter implements GqlExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
-    return {
-      message: exception.message,
-      code: exception.code || 'UNKNOWN',
-      timestamp: new Date().toISOString(),
-    };
+    const extensions = exception.extensions || {};
+    
+    return new GraphQLError(exception.message, {
+      extensions: {
+        code: extensions.code,
+        status: extensions.status,
+      }
+    });
   }
 }

@@ -1,12 +1,13 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { mapProjectToModel, ProjectModel } from './dto/models/project.model';
 import { mapPaginationInputToDto, PaginationInput } from '../common/dto/pagination.dto';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, ParseUUIDPipe } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectInput, mapCreateProjectInputToDto } from './dto/create-project.input';
 import { CustomSession } from 'src/middleware/auth.middleware';
 import { ProjectPaginatedResponse } from './dto/responses/paginated-project.model';
 import { mapUpdateProjectInputToDto, UpdateProjectInput } from './dto/update-project.input';
+import { GraphQLError } from 'graphql';
 
 
 @Resolver(() => ProjectModel)
@@ -16,14 +17,26 @@ export class ProjectsResolver {
   @Mutation(() => ProjectModel)
   async createProject(
     @Args('data') data: CreateProjectInput,
-    @Args('userId') userId: string,
+    @Args('userId', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      })
+    })) userId: string,
   ): Promise<ProjectModel> {
     try {
       const dto = mapCreateProjectInputToDto(data);
       const project = await this.projectsService.create(dto, {id: userId});
       return mapProjectToModel(project);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status,
+        }
+      });
     }
   }
 
@@ -35,14 +48,25 @@ export class ProjectsResolver {
   }
 
   @Query(() => ProjectModel)
-  async project(@Args('id') id: string): Promise<ProjectModel> {
-    const result = await this.projectsService.findOne(id);
-
-    if (!result) {
-      throw new HttpException('Project not found', HttpStatus.NOT_FOUND);
+  async project(@Args('id', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      })
+    })) id: string): Promise<ProjectModel> {
+    try {
+      const result = await this.projectsService.findOne(id);
+      return mapProjectToModel(result);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status
+        }
+      });
     }
-
-    return mapProjectToModel(result);
   }
 
   @Mutation(() => ProjectModel)
@@ -50,31 +74,62 @@ export class ProjectsResolver {
     @Args('data') data: UpdateProjectInput,
   ): Promise<ProjectModel> {
     const dto = mapUpdateProjectInputToDto(data);
-    const result = await this.projectsService.update(data.projectId, dto);
-
-    if (!result) {
-      throw new HttpException('Project not found', HttpStatus.NOT_FOUND);
+    try {
+      const result = await this.projectsService.update(data.projectId, dto);
+      return mapProjectToModel(result);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status
+        }
+      });
     }
-
-    return mapProjectToModel(result);
   }
 
   @Mutation(() => ProjectModel)
-  async removeProject(@Args('id') id: string): Promise<ProjectModel> {
-    const result = await this.projectsService.remove(id);
-
-    if (!result) {
-      throw new HttpException('Project not found', HttpStatus.NOT_FOUND);
+  async removeProject(@Args('id', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      })
+    })) id: string): Promise<ProjectModel> {
+    try {
+      const result = await this.projectsService.remove(id);
+      return mapProjectToModel(result);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status
+        }
+      });
     }
-
-    return mapProjectToModel(result);
   }
 
   @Query(() => [ProjectModel])
   async userProjects(
-    @Args('userId') userId: string,
+    @Args('userId', new ParseUUIDPipe({
+      exceptionFactory: () => new GraphQLError('INVALID_UUID', {
+        extensions: {
+          code: 'BAD_REQUEST',
+          status: 400
+        }
+      })
+    })) userId: string,
   ): Promise<ProjectModel[]> {
-    const projects = await this.projectsService.findByAuthorId(userId);
-    return projects.map(mapProjectToModel);
+    try {
+      const projects = await this.projectsService.findByAuthorId(userId);
+      return projects.map(mapProjectToModel);
+    } catch (error) {
+      throw new GraphQLError(error.message, {
+        extensions: {
+          code: error.status,
+          status: error.status
+        }
+      });
+    }
   }
 }
