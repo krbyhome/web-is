@@ -68,12 +68,11 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({ where: { id } });
-    const newData = this.userRepository.create(updateUserDto);
 
     if (user) {
-      user.name = newData.name;
-      user.email = newData.email;
-      user.avatar_url = newData.avatar_url;
+      user.name = updateUserDto.name || user.name;
+      user.email = updateUserDto.email || user.email;
+      user.avatar_url = updateUserDto.avatar_url || user.avatar_url;
 
       return this.userRepository.save(user);
     }
@@ -92,6 +91,8 @@ export class UserService {
     const user = await this.userRepository.findOne({ where: { id } });
     if (user) {
       await this.userRepository.remove(user);
+    } else {
+      throw new NotFoundException(`User with ID ${id} not found`);
     }
   }
 }

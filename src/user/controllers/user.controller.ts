@@ -164,7 +164,6 @@ export class UserController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Req() req: Request & { session: CustomSession },
-    @Res() res: Response,
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFile() avatar?: Express.Multer.File,
   ): Promise<UpdateUserResponseDto> {
@@ -185,7 +184,6 @@ export class UserController {
       await this.notificationService.create(notifyDto);
 
       req.session.username = result.name;
-      res.redirect('/profile');
 
       return {
         user: mapUserToDto(result)
@@ -218,18 +216,12 @@ export class UserController {
   })
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
-    @Res() res: Response
   ) {
-    const result = await this.userService.remove(id);
-
-    if (result === undefined) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
-    }
-
-    res.redirect('/profile');
+    await this.userService.remove(id);
 
     return {
-      user: mapUserToDto(result)
+      status: 200,
+      code: "SUCCESS"
     }
   }
 }
