@@ -62,7 +62,12 @@ export class UserResolver {
     const result = await this.usersService.findOne(id);
 
     if (result === null) {
-      throw new GraphQLError('Not Found');
+      throw new GraphQLError('Not Found', {
+        extensions: {
+          code: 'NOT_FOUND',
+          status: 404,
+        },
+      });
     }
 
     return mapUserToModel(result);
@@ -84,7 +89,12 @@ export class UserResolver {
     const result = await this.usersService.update(id, dto);
 
     if (result === undefined) {
-      throw new GraphQLError('Not Found');
+      throw new GraphQLError('Not Found', {
+        extensions: {
+          code: 'NOT_FOUND',
+          status: 404,
+        },
+      });
     }
 
     const notifyDto = new CreateNotificationDto();
@@ -109,7 +119,12 @@ export class UserResolver {
     const result = await this.usersService.remove(id);
 
     if (result === undefined) {
-      throw new GraphQLError('Not Found');
+      throw new GraphQLError('Not Found', {
+        extensions: {
+          code: 'NOT_FOUND',
+          status: 404,
+        },
+      });
     }
 
     return mapUserToModel(result);
