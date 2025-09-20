@@ -4,36 +4,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    toastr.options = {
-      closeButton: true,
-      progressBar: true,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      showDuration: 300,
-      hideDuration: 1000,
-      timeOut: 5000,
-      extendedTimeOut: 1000
-    };
+  (function() {
+    let eventSource = null;
 
-    const eventSource = new EventSource('/projects/sse');
-    
-    eventSource.onmessage = function(event) {
-      try {
-        const data = JSON.parse(event.data);
-        switch(data.type) {
-          case 'success':
-            toastr.success('Операция выполнена успешно');
-            break;
-          case 'error':
-            toastr.error('Произошла ошибка при выполнении операции');
-            break;
+    function initEventSource() {
+      toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        positionClass: 'toast-bottom-right',
+        preventDuplicates: true,
+        showDuration: 300,
+        hideDuration: 1000,
+        timeOut: 5000,
+        extendedTimeOut: 1000
+      };
+
+      eventSource = new EventSource('/projects/sse');
+      
+      eventSource.onmessage = function(event) {
+        try {
+          const data = JSON.parse(event.data);
+          switch(data.type) {
+            case 'success':
+              toastr.success('Операция выполнена успешно');
+              break;
+            case 'error':
+              toastr.error('Произошла ошибка при выполнении операции');
+              break;
+          }
+        } catch (e) {}
+      };
+
+      eventSource.onerror = function() {
+        if (eventSource) {
+          eventSource.close();
+          eventSource = null;
         }
-      } catch (e) {}
-    };
+      };
+    }
 
-    eventSource.onerror = function() {
-      eventSource.close();
-    };
-  });
+    function cleanupEventSource() {
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initEventSource);
+    window.addEventListener('beforeunload', cleanupEventSource);
+    window.addEventListener('pagehide', cleanupEventSource);
+  })();
 </script>

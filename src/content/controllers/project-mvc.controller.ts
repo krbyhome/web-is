@@ -22,7 +22,7 @@ export class ProjectMvcController {
     private readonly commentService: CommentService,
     private readonly userService: UserService,
     private readonly notificationService: NotificationsService
-  ) { }
+  ) {}
 
   @Sse('sse')
   sse(): Observable<MessageEvent> {
