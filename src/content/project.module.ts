@@ -12,6 +12,7 @@ import { ProjectMvcController } from './controllers/project-mvc.controller';
 import { Comment } from 'src/interactions/entities/comment.entity';
 import { CommentModule } from 'src/interactions/comment.module';
 import { ProjectsResolver } from './project.resolver';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -19,7 +20,10 @@ import { ProjectsResolver } from './project.resolver';
     UserModule,
     CommentModule,
     TechnologyModule,
-    NotificationsModule
+    NotificationsModule,
+    CacheModule.register({
+      ttl: 5
+    }),
   ],
   providers: [ProjectService, ProjectsResolver],
   controllers: [ProjectController, ProjectMvcController],
