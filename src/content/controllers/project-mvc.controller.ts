@@ -1,4 +1,4 @@
-import { Controller, Get, Render, Param, Req, Res, Post, Body, UnauthorizedException, ForbiddenException, Header } from '@nestjs/common';
+import { Controller, Get, Render, Param, Req, Res, Post, Body, UnauthorizedException, ForbiddenException, Header, Sse } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { CustomSession } from '../../middleware/auth.middleware';
 import { ProjectService } from '../project.service';
@@ -9,9 +9,13 @@ import { NotificationsService } from 'src/notifications/notifications.service';
 import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
 import { UpdateProjectDto } from '../dto/update-project.dto';
 import { CacheControl } from 'src/common/decorators/cache-controll.decorator';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Observable } from 'rxjs';
 
 @Controller('projects')
 export class ProjectMvcController {
+  private readonly emitter = new EventEmitter2();
+  private readonly emitTimeout: number = 1000;
   constructor(
     private readonly projectService: ProjectService,
     private readonly techService: TechnologyService,
@@ -19,6 +23,26 @@ export class ProjectMvcController {
     private readonly userService: UserService,
     private readonly notificationService: NotificationsService
   ) { }
+
+  @Sse('sse')
+  sse(): Observable<MessageEvent> {
+    return new Observable((subscriber) => {
+      const handler = (data) => {
+        subscriber.next({ data: JSON.stringify(data) } as MessageEvent);
+      };
+
+      this.emitter.on('project.event', handler);
+
+      return () => this.emitter.off('project.event', handler);
+    });
+  }
+
+  private emitEvent(type: string) {
+    this.emitter.emit('project.event', {
+      type,
+      timestamp: new Date().toISOString(),
+    });
+  }
 
   @Get()
   @Render('pages/projects/list')
@@ -171,6 +195,10 @@ export class ProjectMvcController {
     await this.notificationService.create(notifyDto);
 
     res.redirect(`/projects/view/${project.id}`)
+
+    setTimeout(() => {
+      this.emitEvent('success');
+    }, this.emitTimeout);
   }
 
   @Get('edit/:id')
@@ -260,9 +288,15 @@ export class ProjectMvcController {
       await this.projectService.update(id, updateDto);
 
       res.redirect(`/projects/view/${id}`);
+      setTimeout(() => {
+      this.emitEvent('success');
+    }, this.emitTimeout);
     } catch (error) {
       console.error('Error updating project:', error);
       res.redirect(`/projects/edit/${id}?error=Не удалось обновить проект`);
+      setTimeout(() => {
+      this.emitEvent('error');
+    }, this.emitTimeout);
     }
   }
 }

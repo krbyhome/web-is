@@ -32,6 +32,7 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/event-emitter": "^3.0.1",
     "@nestjs/graphql": "^13.1.0",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.1.5",
@@ -48,7 +49,8 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "supertokens-node": "^22.1.0",
-    "supertokens-website": "^20.1.6"
+    "supertokens-website": "^20.1.6",
+    "toaster": "^0.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

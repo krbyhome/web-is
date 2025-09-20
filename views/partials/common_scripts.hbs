@@ -1,0 +1,39 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    toastr.options = {
+      closeButton: true,
+      progressBar: true,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      showDuration: 300,
+      hideDuration: 1000,
+      timeOut: 5000,
+      extendedTimeOut: 1000
+    };
+
+    const eventSource = new EventSource('/projects/sse');
+    
+    eventSource.onmessage = function(event) {
+      try {
+        const data = JSON.parse(event.data);
+        switch(data.type) {
+          case 'success':
+            toastr.success('Операция выполнена успешно');
+            break;
+          case 'error':
+            toastr.error('Произошла ошибка при выполнении операции');
+            break;
+        }
+      } catch (e) {}
+    };
+
+    eventSource.onerror = function() {
+      eventSource.close();
+    };
+  });
+</script>
